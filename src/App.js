@@ -1,25 +1,42 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { ulid } from "ulid";
+
+import "./App.css";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      oauthParams: {
+        client_id: process.env.REACT_APP_NETATMO_CLIENT_ID,
+        redirect_uri: window.location.href,
+        scope: "read_homecoach",
+        state: ulid(),
+      },
+    };
+  }
+
+  get oauthURL() {
+    const {
+      oauthParams: { client_id, redirect_uri, scope, state },
+    } = this.state;
+    let params = new URLSearchParams();
+
+    params.append("client_id", client_id);
+    params.append("redirect_uri", redirect_uri);
+    params.append("scope", scope);
+    params.append("state", state);
+
+    return `https://api.netatmo.com/oauth2/authorize?${params}`;
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <form action={this.oauthURL} method="POST">
+          <button type="submit">Log in to Netatmo</button>
+        </form>
       </div>
     );
   }
