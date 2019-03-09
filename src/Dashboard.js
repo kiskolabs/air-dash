@@ -53,7 +53,7 @@ class Dashboard extends Component {
       return (
         <div>
           {data.devices.map(device => (
-            <Device key={device.id} data={device} />
+            <Device key={device._id} data={device} />
           ))}
         </div>
       );
