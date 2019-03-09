@@ -1,7 +1,12 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import { ulid } from "ulid";
 
+import SecurityContext from "./SecurityContext.js";
+
 class Login extends Component {
+  static contextType = SecurityContext;
+
   constructor(props) {
     super(props);
 
@@ -30,11 +35,15 @@ class Login extends Component {
   }
 
   render() {
-    return (
-      <form action={this.oauthURL} method="POST">
-        <button type="submit">Log in to Netatmo</button>
-      </form>
-    );
+    if (this.context.isAuthenticated()) {
+      return <Redirect to="/" />;
+    } else {
+      return (
+        <form action={this.oauthURL} method="POST">
+          <button type="submit">Log in to Netatmo</button>
+        </form>
+      );
+    }
   }
 }
 
