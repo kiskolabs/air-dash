@@ -7,8 +7,6 @@ const formUrlEncoded = x =>
 
 export async function handler(event, context) {
   try {
-    console.log("queryStringParameters", event.queryStringParameters);
-
     const response = await axios.request({
       url: "https://api.netatmo.com/oauth2/token",
       method: "post",
@@ -30,9 +28,13 @@ export async function handler(event, context) {
   } catch (error) {
     console.error(error.response.data);
 
+    const {
+      response: { data },
+    } = error;
+
     return {
-      statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
+      statusCode: error.response.status,
+      body: JSON.stringify({ error: `${error.message} (${data.error})` }),
     };
   }
 }

@@ -1,43 +1,40 @@
 import React, { Component } from "react";
-import { ulid } from "ulid";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import "./App.css";
+import Dashboard from "./Dashboard.js";
+import Login from "./Login.js";
+import CodeReceived from "./CodeReceived.js";
+import SecurityContext from "./SecurityContext.js";
+import PrivateRoute from "./PrivateRoute.js";
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      oauthParams: {
-        client_id: process.env.REACT_APP_NETATMO_CLIENT_ID,
-        redirect_uri: window.location.href,
-        scope: "read_homecoach",
-        state: ulid(),
+      isAuthenticated: () => !!this.state.accessToken,
+      updateContext: newContext => {
+        this.setState(newContext);
+      },
+      logOut: () => {
+        this.setState({ accessToken: null });
       },
     };
   }
 
-  get oauthURL() {
-    const {
-      oauthParams: { client_id, redirect_uri, scope, state },
-    } = this.state;
-    let params = new URLSearchParams();
-
-    params.append("client_id", client_id);
-    params.append("redirect_uri", redirect_uri);
-    params.append("scope", scope);
-    params.append("state", state);
-
-    return `https://api.netatmo.com/oauth2/authorize?${params}`;
-  }
+  static contextType = SecurityContext;
 
   render() {
     return (
-      <div>
-        <form action={this.oauthURL} method="POST">
-          <button type="submit">Log in to Netatmo</button>
-        </form>
-      </div>
+      <SecurityContext.Provider value={this.state}>
+        <Router>
+          <div>
+            <PrivateRoute path="/" exact component={Dashboard} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/code-received/" component={CodeReceived} />
+          </div>
+        </Router>
+      </SecurityContext.Provider>
     );
   }
 }

@@ -1,0 +1,41 @@
+import React, { Component } from "react";
+import { ulid } from "ulid";
+
+class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      oauthParams: {
+        client_id: process.env.REACT_APP_NETATMO_CLIENT_ID,
+        redirect_uri: `${window.location.origin}/code-received/`,
+        scope: "read_homecoach",
+        state: ulid(),
+      },
+    };
+  }
+
+  get oauthURL() {
+    const {
+      oauthParams: { client_id, redirect_uri, scope, state },
+    } = this.state;
+    let params = new URLSearchParams();
+
+    params.append("client_id", client_id);
+    params.append("redirect_uri", redirect_uri);
+    params.append("scope", scope);
+    params.append("state", state);
+
+    return `https://api.netatmo.com/oauth2/authorize?${params}`;
+  }
+
+  render() {
+    return (
+      <form action={this.oauthURL} method="POST">
+        <button type="submit">Log in to Netatmo</button>
+      </form>
+    );
+  }
+}
+
+export default Login;
