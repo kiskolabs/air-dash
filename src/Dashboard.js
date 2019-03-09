@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import Device from "./Device.js";
 import SecurityContext from "./SecurityContext.js";
 
 class Dashboard extends Component {
@@ -51,7 +52,9 @@ class Dashboard extends Component {
     if (data) {
       return (
         <div>
-          <pre>{JSON.stringify(data, undefined, 2)}</pre>
+          {data.devices.map(device => (
+            <Device key={device.id} data={device} />
+          ))}
         </div>
       );
     } else if (loading) {
