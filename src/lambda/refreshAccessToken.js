@@ -8,17 +8,16 @@ function formUrlEncoded(x) {
 
 export async function handler(event, context) {
   try {
+    console.log(event.queryStringParameters);
     const response = await axios.request({
       url: "https://api.netatmo.com/oauth2/token",
       method: "post",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       data: formUrlEncoded({
-        grant_type: "authorization_code",
+        grant_type: "refresh_token",
+        refresh_token: event.queryStringParameters.refresh_token,
         client_id: process.env.NETATMO_CLIENT_ID,
         client_secret: process.env.NETATMO_CLIENT_SECRET,
-        code: event.queryStringParameters.code,
-        redirect_uri: event.queryStringParameters.redirect_uri,
-        scope: "read_homecoach",
       }),
     });
 
@@ -27,11 +26,7 @@ export async function handler(event, context) {
       body: JSON.stringify(response.data),
     };
   } catch (error) {
-    if (error.response) {
-      console.error(error.response.data);
-    } else {
-      console.error(error);
-    }
+    console.error(error.response.data);
 
     const {
       response: { data },

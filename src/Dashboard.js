@@ -23,7 +23,7 @@ class Dashboard extends Component {
     await this.setState({ loading: true, error: null });
 
     const response = await axios.get("https://api.netatmo.com/api/gethomecoachsdata", {
-      params: { access_token: this.context.accessToken },
+      params: { access_token: await this.context.fetchAccessToken() },
     });
 
     const { data } = response;
