@@ -10,6 +10,9 @@ import PrivateRoute from "./PrivateRoute.js";
 import NoMatch from "./NoMatch.js";
 
 const AUTH_KEYS = ["accessToken", "refreshToken", "expiresIn", "expiresAt"];
+const LS_PREFIX = "air-dash.";
+const ISO_REGEXP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+const INT_REGEXP = /^\d+$/;
 
 class App extends Component {
   constructor(props) {
@@ -28,13 +31,19 @@ class App extends Component {
       logOut: this.logOut,
     };
 
-    for (let key of AUTH_KEYS) {
-      const value = localStorage.getItem(`air-dash.${key}`);
-      if (value) {
-        if (key === "expiresAt") {
-          state[key] = Date.parse(value);
-        } else {
-          state[key] = value;
+    for (let i = 0, len = localStorage.length; i < len; ++i) {
+      const key = localStorage.key(i);
+      if (key.startsWith(LS_PREFIX)) {
+        const value = localStorage.getItem(key);
+        const stateKey = key.slice(LS_PREFIX.length, key.length);
+        if (value) {
+          if (ISO_REGEXP.test(value)) {
+            state[stateKey] = new Date(value);
+          } else if (INT_REGEXP.test(value)) {
+            state[stateKey] = parseInt(value, 10);
+          } else {
+            state[stateKey] = value;
+          }
         }
       }
     }
@@ -93,7 +102,11 @@ class App extends Component {
   async updateContext(newContext) {
     for (const key in newContext) {
       if (newContext.hasOwnProperty(key)) {
-        localStorage.setItem(`air-dash.${key}`, newContext[key]);
+        let value = newContext[key];
+        if (typeof value.toISOString === "function") {
+          value = value.toISOString();
+        }
+        localStorage.setItem(`${LS_PREFIX}${key}`, value);
       }
     }
 
