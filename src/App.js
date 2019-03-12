@@ -15,11 +15,17 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.refreshAccessToken = this.refreshAccessToken = this.refreshAccessToken.bind(this);
+    this.isAuthenticated = this.isAuthenticated.bind(this);
+    this.updateContext = this.updateContext.bind(this);
+    this.fetchAccessToken = this.fetchAccessToken.bind(this);
+    this.logOut = this.logOut.bind(this);
+
     let state = {
-      isAuthenticated: this.isAuthenticated.bind(this),
-      updateContext: this.updateContext.bind(this),
-      fetchAccessToken: this.fetchAccessToken.bind(this),
-      logOut: this.logOut.bind(this),
+      isAuthenticated: this.isAuthenticated,
+      updateContext: this.updateContext,
+      fetchAccessToken: this.fetchAccessToken,
+      logOut: this.logOut,
     };
 
     for (let key of AUTH_KEYS) {
@@ -34,7 +40,6 @@ class App extends Component {
     }
 
     this.state = state;
-    this.refreshAccessToken = this.refreshAccessToken.bind(this);
   }
 
   static contextType = SecurityContext;
@@ -108,6 +113,7 @@ class App extends Component {
       <SecurityContext.Provider value={this.state}>
         <Router>
           <div>
+            {this.isAuthenticated() && <button onClick={this.logOut}>Log out</button>}
             <Switch>
               <PrivateRoute path="/" exact component={Dashboard} />
               <Route path="/login" exact component={Login} />
