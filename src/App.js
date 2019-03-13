@@ -68,6 +68,8 @@ class App extends Component {
   }
 
   async refreshAccessToken() {
+    const refreshLabel = "Access token refresh";
+    console.time(refreshLabel);
     try {
       const response = await axios.get("/.netlify/functions/refreshAccessToken", {
         params: {
@@ -95,6 +97,7 @@ class App extends Component {
       console.error(error);
       this.logOut();
     }
+    console.timeEnd(refreshLabel);
   }
 
   async updateContext(newContext) {
