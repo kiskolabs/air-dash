@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
+import { Store, set, keys, get, clear } from "idb-keyval";
 
 import Dashboard from "./Dashboard.js";
 import Login from "./Login.js";
@@ -9,15 +10,11 @@ import SecurityContext from "./SecurityContext.js";
 import PrivateRoute from "./PrivateRoute.js";
 import NoMatch from "./NoMatch.js";
 
-const AUTH_KEYS = ["accessToken", "refreshToken", "expiresIn", "expiresAt"];
-const LS_PREFIX = "air-dash.";
-const ISO_REGEXP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
-const INT_REGEXP = /^\d+$/;
-
 class App extends Component {
   constructor(props) {
     super(props);
 
+    this.customStore = new Store("air-dash", "app-state");
     this.refreshAccessToken = this.refreshAccessToken = this.refreshAccessToken.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.updateContext = this.updateContext.bind(this);
@@ -31,27 +28,26 @@ class App extends Component {
       logOut: this.logOut,
     };
 
-    for (let i = 0, len = localStorage.length; i < len; ++i) {
-      const key = localStorage.key(i);
-      if (key.startsWith(LS_PREFIX)) {
-        const value = localStorage.getItem(key);
-        const stateKey = key.slice(LS_PREFIX.length, key.length);
-        if (value) {
-          if (ISO_REGEXP.test(value)) {
-            state[stateKey] = new Date(value);
-          } else if (INT_REGEXP.test(value)) {
-            state[stateKey] = parseInt(value, 10);
-          } else {
-            state[stateKey] = value;
-          }
-        }
-      }
-    }
-
     this.state = state;
   }
 
   static contextType = SecurityContext;
+
+  async componentDidMount() {
+    const stateKeys = await keys(this.customStore);
+
+    let newState = {};
+    for (let key of stateKeys) {
+      try {
+        const value = await get(key, this.customStore);
+        newState[key] = value;
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    this.setState(newState);
+  }
 
   isAuthenticated() {
     return !!this.state.accessToken;
@@ -103,10 +99,7 @@ class App extends Component {
     for (const key in newContext) {
       if (newContext.hasOwnProperty(key)) {
         let value = newContext[key];
-        if (typeof value.toISOString === "function") {
-          value = value.toISOString();
-        }
-        localStorage.setItem(`${LS_PREFIX}${key}`, value);
+        await set(key, value, this.customStore);
       }
     }
 
@@ -114,11 +107,9 @@ class App extends Component {
   }
 
   logOut() {
-    let newState = {};
-    for (let key of AUTH_KEYS) {
-      newState[key] = null;
-    }
-    this.setState(newState, () => localStorage.clear());
+    clear(this.customStore).then(() => {
+      window.location.reload();
+    });
   }
 
   render() {
