@@ -1,8 +1,21 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { ulid } from "ulid";
 
 import SecurityContext from "./SecurityContext.js";
+
+function toHexString(byteArray) {
+  return Array.prototype.map
+    .call(byteArray, function(byte) {
+      return ("0" + (byte & 0xff).toString(16)).slice(-2);
+    })
+    .join("");
+}
+
+function getRandomString(bits) {
+  let array = new Uint8Array(bits);
+  window.crypto.getRandomValues(array);
+  return toHexString(array);
+}
 
 class Login extends Component {
   static contextType = SecurityContext;
@@ -15,7 +28,7 @@ class Login extends Component {
         client_id: process.env.REACT_APP_NETATMO_CLIENT_ID,
         redirect_uri: `${window.location.origin}/code-received/`,
         scope: "read_homecoach",
-        state: ulid(),
+        state: getRandomString(16),
       },
     };
   }
