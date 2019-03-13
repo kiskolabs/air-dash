@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-import SecurityContext from "./SecurityContext.js";
+import SecurityContext from "../lib/SecurityContext.js";
 
 function PrivateRoute({ component: Component, ...rest }) {
   return (

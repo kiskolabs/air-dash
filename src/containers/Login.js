@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
-import SecurityContext from "./SecurityContext.js";
+import SecurityContext from "../lib/SecurityContext.js";
 
 function toHexString(byteArray) {
   return Array.prototype.map

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import Device from "./Device.js";
-import SecurityContext from "./SecurityContext.js";
+import Device from "../components/Device.js";
+import SecurityContext from "../lib/SecurityContext.js";
 
 class Dashboard extends Component {
   static contextType = SecurityContext;

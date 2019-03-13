@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
 import { Store, set, keys, get, clear } from "idb-keyval";
 
-import Dashboard from "./Dashboard.js";
-import Login from "./Login.js";
-import CodeReceived from "./CodeReceived.js";
-import SecurityContext from "./SecurityContext.js";
-import PrivateRoute from "./PrivateRoute.js";
-import NoMatch from "./NoMatch.js";
+import Dashboard from "./containers/Dashboard.js";
+import Login from "./containers/Login.js";
+import CodeReceived from "./containers/CodeReceived.js";
+import NoMatch from "./containers/NoMatch.js";
+
+import PrivateRoute from "./components/PrivateRoute.js";
+
+import SecurityContext from "./lib/SecurityContext.js";
 
 class App extends Component {
   constructor(props) {

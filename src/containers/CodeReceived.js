@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
-import SecurityContext from "./SecurityContext.js";
+import SecurityContext from "../lib/SecurityContext.js";
 
 class CodeReceived extends Component {
   static contextType = SecurityContext;
