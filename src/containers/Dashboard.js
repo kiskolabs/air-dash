@@ -43,6 +43,14 @@ class Dashboard extends Component {
 
   async componentDidMount() {
     await this.fetchData();
+
+    this.interval = setInterval(() => {
+      this.fetchData();
+    }, 30 * 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
