@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 import Device from "../components/Device.js";
 import SecurityContext from "../lib/SecurityContext.js";
+import NetatmoClient from "../lib/NetatmoClient.js";
 
 class Dashboard extends Component {
   static contextType = SecurityContext;
@@ -20,24 +20,23 @@ class Dashboard extends Component {
   }
 
   async fetchData() {
-    await this.setState({ loading: true, error: null });
+    await this.setState({ loading: true });
 
-    const response = await axios.get("https://api.netatmo.com/api/gethomecoachsdata", {
-      params: { access_token: await this.context.fetchAccessToken() },
-    });
+    try {
+      const accessToken = await this.context.fetchAccessToken();
+      const client = new NetatmoClient(accessToken);
 
-    const { data } = response;
+      const data = await client.getAirQualityData();
 
-    if (data.error) {
-      this.setState({
-        error: data.error,
-        loading: false,
-      });
-    } else {
       this.setState({
         error: null,
         loading: false,
         data: data.body,
+      });
+    } catch (err) {
+      this.setState({
+        error: err.message,
+        loading: false,
       });
     }
   }
