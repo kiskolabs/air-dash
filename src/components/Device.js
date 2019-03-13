@@ -11,13 +11,33 @@ import {
 import { faStar as faEmptyStar } from "@fortawesome/free-regular-svg-icons";
 
 class Device extends Component {
-  // 0 = healthy, 4 = unhealthy
+  healthIndexToWords(index) {
+    let word = "—";
+
+    switch (index) {
+      case 0:
+        word = "Health";
+        break;
+      case 1:
+        word = "Fine";
+        break;
+      case 2:
+        word = "Fair";
+        break;
+      case 3:
+        word = "Poor";
+        break;
+      case 3:
+        word = "Unhealthy";
+        break;
+    }
+
+    return word;
+  }
+
   renderHealthIndex(index) {
     const emptyStars = index;
     const fullStars = 5 - emptyStars;
-    console.log("index", index);
-    console.log("emptyStars", emptyStars);
-    console.log("fullStars", fullStars);
 
     let stars = [];
 
@@ -64,8 +84,9 @@ class Device extends Component {
           <dt>
             <FontAwesomeIcon icon={faHeart} /> Health Index
           </dt>
-          <dd title={dashboard_data.health_idx}>
-            {this.renderHealthIndex(dashboard_data.health_idx)}
+          <dd>
+            {this.renderHealthIndex(dashboard_data.health_idx)}{" "}
+            {this.healthIndexToWords(dashboard_data.health_idx)}
           </dd>
         </dl>
       </div>
