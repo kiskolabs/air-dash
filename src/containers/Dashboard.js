@@ -31,7 +31,7 @@ class Dashboard extends Component {
       this.setState({
         error: null,
         loading: false,
-        data: data.body,
+        data: data,
       });
     } catch (err) {
       this.setState({
@@ -59,7 +59,7 @@ class Dashboard extends Component {
     if (data) {
       return (
         <div>
-          {data.devices.map(device => (
+          {data.body.devices.map(device => (
             <Device key={device._id} data={device} />
           ))}
         </div>
