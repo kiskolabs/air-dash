@@ -8,11 +8,12 @@ import {
   faTint,
   faVolumeUp,
 } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faEmptyStar } from "@fortawesome/free-regular-svg-icons";
+import { faClock, faStar as faEmptyStar } from "@fortawesome/free-regular-svg-icons";
+import { distanceInWords } from "date-fns";
 
 class Device extends Component {
   healthIndexToWords(index) {
-    let word = "—";
+    let word = "";
 
     switch (index) {
       case 0:
@@ -27,9 +28,11 @@ class Device extends Component {
       case 3:
         word = "Poor";
         break;
-      case 3:
+      case 4:
         word = "Unhealthy";
         break;
+      default:
+        word = "—";
     }
 
     return word;
@@ -54,7 +57,7 @@ class Device extends Component {
 
   render() {
     const {
-      data: { station_name, dashboard_data },
+      data: { station_name, dashboard_data, last_status_store },
     } = this.props;
 
     return (
@@ -88,6 +91,11 @@ class Device extends Component {
             {this.renderHealthIndex(dashboard_data.health_idx)}{" "}
             {this.healthIndexToWords(dashboard_data.health_idx)}
           </dd>
+
+          <dt>
+            <FontAwesomeIcon icon={faClock} /> Last update
+          </dt>
+          <dd>{distanceInWords(new Date(), last_status_store, { addSuffix: true })}</dd>
         </dl>
       </div>
     );
