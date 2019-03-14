@@ -58,7 +58,7 @@ class Dashboard extends Component {
 
     if (data) {
       return (
-        <div>
+        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
           {data.body.devices.map(device => (
             <Device key={device._id} data={device} />
           ))}
