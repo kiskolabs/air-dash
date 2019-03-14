@@ -49,9 +49,9 @@ class NetatmoClient {
   // < 15°: red
   // 15° - 16°: orange
   // 16° - 17°: yellow
-  // 17° - 18°: green
-  // 18° - 23°: blue
-  // 23° - 26°: green
+  // 17° - 18°: blue
+  // 18° - 23°: green
+  // 23° - 26°: blue
   // 26° - 27°: yellow
   // 27° - 29°: orange
   // >29°: red
@@ -63,11 +63,11 @@ class NetatmoClient {
     } else if (celsius >= 16 && celsius < 17) {
       return "yellow";
     } else if (celsius >= 17 && celsius < 18) {
-      return "green";
-    } else if (celsius >= 18 && celsius < 23) {
       return "blue";
-    } else if (celsius >= 23 && celsius < 26) {
+    } else if (celsius >= 18 && celsius < 23) {
       return "green";
+    } else if (celsius >= 23 && celsius < 26) {
+      return "blue";
     } else if (celsius >= 26 && celsius < 27) {
       return "yellow";
     } else if (celsius >= 27 && celsius < 20) {
@@ -77,16 +77,16 @@ class NetatmoClient {
     }
   }
 
-  // < 50dB: blue
-  // 50dB - 65db: green
+  // < 50dB: green
+  // 50dB - 65db: blue
   // 65db - 70dB: yellow
   // 70db - 80db orange
   // >80db: red
   noiseToColor(dba) {
     if (dba < 50) {
-      return "blue";
-    } else if (dba >= 15 && dba < 65) {
       return "green";
+    } else if (dba >= 15 && dba < 65) {
+      return "blue";
     } else if (dba >= 65 && dba < 70) {
       return "yellow";
     } else if (dba >= 70 && dba < 80) {
@@ -96,16 +96,16 @@ class NetatmoClient {
     }
   }
 
-  // < 900ppm: blue
-  // 900ppm - 1150ppm: green
+  // < 900ppm: green
+  // 900ppm - 1150ppm: blue
   // 1150ppm - 1400ppm: yellow
   // 1400ppm - 1600ppm: orange
   // > 1600ppm: red
   co2ToColor(ppm) {
     if (ppm < 900) {
-      return "blue";
-    } else if (ppm >= 900 && ppm < 1150) {
       return "green";
+    } else if (ppm >= 900 && ppm < 1150) {
+      return "blue";
     } else if (ppm >= 1150 && ppm < 1400) {
       return "yellow";
     } else if (ppm >= 1400 && ppm < 1600) {
@@ -118,9 +118,9 @@ class NetatmoClient {
   // < 15%: red
   // 15% - 20%: orange
   // 20% - 30%: yellow
-  // 30% - 40%: green
-  // 40% - 50%: blue
-  // 50% - 60%: green
+  // 30% - 40%: blue
+  // 40% - 50%: green
+  // 50% - 60%: blue
   // 60% - 70%: yellow
   // 70% - 80%: orange
   // >80%: red
@@ -132,11 +132,11 @@ class NetatmoClient {
     } else if (percent >= 20 && percent < 30) {
       return "yellow";
     } else if (percent >= 30 && percent < 40) {
-      return "green";
-    } else if (percent >= 40 && percent < 50) {
       return "blue";
-    } else if (percent >= 50 && percent < 60) {
+    } else if (percent >= 40 && percent < 50) {
       return "green";
+    } else if (percent >= 50 && percent < 60) {
+      return "blue";
     } else if (percent >= 60 && percent < 70) {
       return "yellow";
     } else if (percent >= 70 && percent < 80) {
@@ -146,13 +146,13 @@ class NetatmoClient {
     }
   }
 
-  // 0: blue
-  // 1: green
+  // 0: green
+  // 1: blue
   // 2: yellow
   // 3: orange
   // 4: red
   healthIndexToColor(index) {
-    return ["blue", "green", "yellow", "orange", "red"][index];
+    return ["green", "blue", "yellow", "orange", "red"][index];
   }
 
   healthIndexToWords(index) {
