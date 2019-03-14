@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faExclamationTriangle,
   faHeart,
   faHeartbeat,
   faLeaf,
@@ -10,17 +9,59 @@ import {
   faVolumeUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { faClock, faHeart as faEmptyHeart } from "@fortawesome/free-regular-svg-icons";
-import { distanceInWords } from "date-fns";
+import { distanceInWords, subHours } from "date-fns";
 
 import NetatmoClient from "../lib/NetatmoClient.js";
+import SecurityContext from "../lib/SecurityContext.js";
 
 import "./Device.css";
 
 class Device extends Component {
+  static contextType = SecurityContext;
+
   constructor(props) {
     super(props);
 
+    this.state = {
+      error: false,
+      loading: false,
+      timeSeriesData: null,
+    };
+
     this.netatmoClient = new NetatmoClient();
+    this.fetchTimeSeriesData = this.fetchTimeSeriesData.bind(this);
+  }
+
+  async fetchTimeSeriesData() {
+    await this.setState({ loading: true });
+
+    try {
+      const accessToken = await this.context.fetchAccessToken();
+      const now = new Date();
+      const data = await this.netatmoClient.getMeasurements(accessToken, {
+        deviceId: this.props.data._id,
+        dateBegin: Math.round(subHours(now, 1).getTime() / 1000),
+        dateEnd: Math.round(now.getTime() / 1000),
+      });
+
+      console.log("timeSeriesData", data);
+
+      this.setState({
+        error: null,
+        loading: false,
+        timeSeriesData: data,
+      });
+    } catch (err) {
+      console.log(err);
+      this.setState({
+        error: err.message,
+        loading: false,
+      });
+    }
+  }
+
+  async componentDidMount() {
+    // await this.fetchTimeSeriesData();
   }
 
   renderHealthIndex(index) {

@@ -46,6 +46,35 @@ class NetatmoClient {
     return processedData;
   }
 
+  async getMeasurements(accessToken, options) {
+    const fetchLabel = "Fetching measurements";
+    const processingLabel = "Processing air quality data";
+    console.time(fetchLabel);
+
+    const response = await axios.get("https://api.netatmo.com/api/getmeasure", {
+      params: {
+        access_token: accessToken,
+        date_begin: options.dateBegin,
+        date_end: options.dateEnd,
+        device_id: options.deviceId,
+        limit: options.limit,
+        optimize: !!options.optimize,
+        real_time: !!options.realTime,
+        scale: options.scale || "max",
+        type: options.type || "CO2,Humidity,Noise,Temperature",
+      },
+    });
+    console.timeEnd(fetchLabel);
+
+    let { data } = response;
+
+    console.time(processingLabel);
+    const processedData = convertUnixTimesToDates(data);
+    console.timeEnd(processingLabel);
+
+    return response.data;
+  }
+
   // < 15°: red
   // 15° - 16°: orange
   // 16° - 17°: yellow
