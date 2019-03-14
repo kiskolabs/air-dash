@@ -154,6 +154,10 @@ class NetatmoClient {
   healthIndexToColor(index) {
     return ["blue", "green", "yellow", "orange", "red"][index];
   }
+
+  healthIndexToWords(index) {
+    return ["Health", "Fine", "Fair", "Poor", "Unhealthy"][index];
+  }
 }
 
 export default NetatmoClient;

@@ -22,32 +22,6 @@ class Device extends Component {
     this.netatmoClient = new NetatmoClient();
   }
 
-  healthIndexToWords(index) {
-    let word = "";
-
-    switch (index) {
-      case 0:
-        word = "Health";
-        break;
-      case 1:
-        word = "Fine";
-        break;
-      case 2:
-        word = "Fair";
-        break;
-      case 3:
-        word = "Poor";
-        break;
-      case 4:
-        word = "Unhealthy";
-        break;
-      default:
-        word = "—";
-    }
-
-    return word;
-  }
-
   renderHealthIndex(index) {
     const emptyStars = index;
     const fullStars = 5 - emptyStars;
@@ -107,7 +81,7 @@ class Device extends Component {
           </dt>
           <dd className={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}>
             {this.renderHealthIndex(dashboard_data.health_idx)}{" "}
-            {this.healthIndexToWords(dashboard_data.health_idx)}
+            {this.netatmoClient.healthIndexToWords(dashboard_data.health_idx)}
           </dd>
 
           <dt>
