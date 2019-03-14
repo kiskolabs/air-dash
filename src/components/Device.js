@@ -11,7 +11,17 @@ import {
 import { faClock, faStar as faEmptyStar } from "@fortawesome/free-regular-svg-icons";
 import { distanceInWords } from "date-fns";
 
+import NetatmoClient from "../lib/NetatmoClient.js";
+
+import "./Device.css";
+
 class Device extends Component {
+  constructor(props) {
+    super(props);
+
+    this.netatmoClient = new NetatmoClient();
+  }
+
   healthIndexToWords(index) {
     let word = "";
 
@@ -67,27 +77,35 @@ class Device extends Component {
           <dt>
             <FontAwesomeIcon icon={faThermometerQuarter} /> Temperature
           </dt>
-          <dd>{dashboard_data.Temperature}°C</dd>
+          <dd className={this.netatmoClient.temperatureToColor(dashboard_data.Temperature)}>
+            {dashboard_data.Temperature}°C
+          </dd>
 
           <dt>
             <FontAwesomeIcon icon={faTint} /> Humidity
           </dt>
-          <dd>{dashboard_data.Humidity}%</dd>
+          <dd className={this.netatmoClient.humidityToColor(dashboard_data.Humidity)}>
+            {dashboard_data.Humidity}%
+          </dd>
 
           <dt>
             <FontAwesomeIcon icon={faLeaf} /> CO₂
           </dt>
-          <dd>{dashboard_data.CO2} ppm</dd>
+          <dd className={this.netatmoClient.co2ToColor(dashboard_data.CO2)}>
+            {dashboard_data.CO2} ppm
+          </dd>
 
           <dt>
             <FontAwesomeIcon icon={faVolumeUp} /> Noise
           </dt>
-          <dd>{dashboard_data.Noise} dB</dd>
+          <dd className={this.netatmoClient.noiseToColor(dashboard_data.Noise)}>
+            {dashboard_data.Noise} dB
+          </dd>
 
           <dt>
             <FontAwesomeIcon icon={faHeart} /> Health Index
           </dt>
-          <dd>
+          <dd className={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}>
             {this.renderHealthIndex(dashboard_data.health_idx)}{" "}
             {this.healthIndexToWords(dashboard_data.health_idx)}
           </dd>

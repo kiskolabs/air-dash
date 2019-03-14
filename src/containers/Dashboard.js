@@ -10,6 +10,8 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
 
+    this.netatmoClient = new NetatmoClient();
+
     this.state = {
       error: false,
       loading: false,
@@ -24,9 +26,7 @@ class Dashboard extends Component {
 
     try {
       const accessToken = await this.context.fetchAccessToken();
-      const client = new NetatmoClient(accessToken);
-
-      const data = await client.getAirQualityData();
+      const data = await this.netatmoClient.getAirQualityData(accessToken);
 
       this.setState({
         error: null,

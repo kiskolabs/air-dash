@@ -27,17 +27,13 @@ function convertUnixTimesToDates(object) {
 }
 
 class NetatmoClient {
-  constructor(accessToken) {
-    this.accessToken = accessToken;
-  }
-
-  async getAirQualityData() {
+  async getAirQualityData(accessToken) {
     const fetchLabel = "Fetching air quality data";
     const processingLabel = "Processing air quality data";
 
     console.time(fetchLabel);
     const response = await axios.get("https://api.netatmo.com/api/gethomecoachsdata", {
-      params: { access_token: this.accessToken },
+      params: { access_token: accessToken },
     });
     console.timeEnd(fetchLabel);
 
@@ -156,7 +152,7 @@ class NetatmoClient {
   // 3: orange
   // 4: red
   healthIndexToColor(index) {
-    ["blue", "green", "yellow", "orange", "red"][index];
+    return ["blue", "green", "yellow", "orange", "red"][index];
   }
 }
 
