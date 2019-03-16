@@ -47,10 +47,24 @@ class Login extends Component {
     return `https://api.netatmo.com/oauth2/authorize?${params}`;
   }
 
+  componentDidMount() {
+    if (this.context.netatmoPasswordAuth) {
+      this.timeout = setTimeout(() => {
+        this.setState({ autologin: true });
+      }, 1000);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+  }
+
   render() {
     if (this.context.isAuthenticated()) {
       return <Redirect to="/" />;
-    } else if (this.context.netatmoPasswordAuth) {
+    } else if (this.state.autologin) {
       return <Redirect to="/autologin" />;
     } else {
       return (

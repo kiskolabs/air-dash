@@ -50,7 +50,7 @@ class App extends Component {
       }
     }
 
-    this.setState(newState);
+    await this.setState(newState);
   }
 
   isAuthenticated() {
