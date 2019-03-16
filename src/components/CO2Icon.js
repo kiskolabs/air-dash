@@ -11,15 +11,33 @@ class CO2Icon extends Component {
   }
 
   get color() {
-    return this.netatmoClient.humidityToColor(this.props.co2);
+    return this.netatmoClient.co2ToColor(this.props.co2);
   }
 
   get icon() {
     return faLeaf;
   }
 
+  get counter() {
+    switch (this.color) {
+      case "red":
+        return <span className="fa-layers-counter" style={{ background: "red" }} />;
+      case "orange":
+        return <span className="fa-layers-counter" style={{ background: "orange" }} />;
+      case "yellow":
+        return <span className="fa-layers-counter" style={{ background: "yellow" }} />;
+      default:
+        return null;
+    }
+  }
+
   render() {
-    return <FontAwesomeIcon fixedWidth size="lg" icon={this.icon} />;
+    return (
+      <span className="fa-layers fa-fw fa-lg">
+        <FontAwesomeIcon icon={this.icon} />
+        {this.counter}
+      </span>
+    );
   }
 }
 

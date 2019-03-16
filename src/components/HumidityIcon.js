@@ -18,8 +18,26 @@ class HumidityIcon extends Component {
     return faTint;
   }
 
+  get counter() {
+    switch (this.color) {
+      case "red":
+        return <span className="fa-layers-counter" style={{ background: "red" }} />;
+      case "orange":
+        return <span className="fa-layers-counter" style={{ background: "orange" }} />;
+      case "yellow":
+        return <span className="fa-layers-counter" style={{ background: "yellow" }} />;
+      default:
+        return null;
+    }
+  }
+
   render() {
-    return <FontAwesomeIcon fixedWidth size="lg" icon={this.icon} />;
+    return (
+      <span className="fa-layers fa-fw fa-lg">
+        <FontAwesomeIcon icon={this.icon} />
+        {this.counter}
+      </span>
+    );
   }
 }
 
