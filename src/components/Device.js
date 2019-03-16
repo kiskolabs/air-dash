@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart,
-  faHeartbeat,
-  faLeaf,
-  faThermometerQuarter,
-  faTint,
-  faVolumeUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faClock, faHeart as faEmptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { distanceInWords, subHours } from "date-fns";
 import { LineChart, Line, YAxis } from "recharts";
+
+import CO2Icon from "./CO2Icon.js";
+import HealthIndexIcon from "./HealthIndexIcon.js";
+import HumidityIcon from "./HumidityIcon.js";
+import NoiseIcon from "./NoiseIcon.js";
+import TemperatureIcon from "./TemperatureIcon.js";
 
 import NetatmoClient from "../lib/NetatmoClient.js";
 import SecurityContext from "../lib/SecurityContext.js";
@@ -120,7 +119,7 @@ class Device extends Component {
         <h1>{station_name}</h1>
         <dl>
           <dt>
-            <FontAwesomeIcon fixedWidth size="lg" icon={faThermometerQuarter} /> Temperature
+            <TemperatureIcon temperature={dashboard_data.Temperature} /> Temperature
           </dt>
           <dd className={this.netatmoClient.temperatureToColor(dashboard_data.Temperature)}>
             {dashboard_data.Temperature}°C
@@ -139,7 +138,7 @@ class Device extends Component {
           </dd>
 
           <dt>
-            <FontAwesomeIcon fixedWidth size="lg" icon={faTint} /> Humidity
+            <HumidityIcon humidity={dashboard_data.Humidity} /> Humidity
           </dt>
           <dd className={this.netatmoClient.humidityToColor(dashboard_data.Humidity)}>
             {dashboard_data.Humidity}%
@@ -158,7 +157,7 @@ class Device extends Component {
           </dd>
 
           <dt>
-            <FontAwesomeIcon fixedWidth size="lg" icon={faLeaf} /> CO₂
+            <CO2Icon co2={dashboard_data.CO2} /> CO₂
           </dt>
           <dd className={this.netatmoClient.co2ToColor(dashboard_data.CO2)}>
             {dashboard_data.CO2} ppm
@@ -181,7 +180,7 @@ class Device extends Component {
           </dd>
 
           <dt>
-            <FontAwesomeIcon fixedWidth size="lg" icon={faVolumeUp} /> Noise
+            <NoiseIcon noise={dashboard_data.Noise} /> Noise
           </dt>
           <dd className={this.netatmoClient.noiseToColor(dashboard_data.Noise)}>
             {dashboard_data.Noise} dB
@@ -200,7 +199,7 @@ class Device extends Component {
           </dd>
 
           <dt>
-            <FontAwesomeIcon fixedWidth size="lg" icon={faHeartbeat} /> Health Index
+            <HealthIndexIcon healthIndex={dashboard_data.health_idx} /> Health Index
           </dt>
           <dd className={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}>
             {this.renderHealthIndex(dashboard_data.health_idx)}{" "}
