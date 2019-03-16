@@ -5,6 +5,7 @@ import { Store, set, keys, get, clear } from "idb-keyval";
 
 import Dashboard from "./containers/Dashboard.js";
 import Login from "./containers/Login.js";
+import AutoLogin from "./containers/AutoLogin.js";
 import CodeReceived from "./containers/CodeReceived.js";
 import NoMatch from "./containers/NoMatch.js";
 
@@ -28,6 +29,7 @@ class App extends Component {
       updateContext: this.updateContext,
       fetchAccessToken: this.fetchAccessToken,
       logOut: this.logOut,
+      netatmoPasswordAuth: !!process.env.REACT_APP_NETATMO_PASSWORD_AUTH,
     };
 
     this.state = state;
@@ -122,10 +124,13 @@ class App extends Component {
       <SecurityContext.Provider value={this.state}>
         <Router>
           <div>
-            {this.isAuthenticated() && <button onClick={this.logOut}>Log out</button>}
+            {this.isAuthenticated() && !this.state.netatmoPasswordAuth && (
+              <button onClick={this.logOut}>Log out</button>
+            )}
             <Switch>
               <PrivateRoute path="/" exact component={Dashboard} />
               <Route path="/login" exact component={Login} />
+              <Route path="/autologin" exact component={AutoLogin} />
               <Route path="/code-received/" component={CodeReceived} />
               <Route component={NoMatch} />
             </Switch>

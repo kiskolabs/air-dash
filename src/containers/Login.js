@@ -50,6 +50,8 @@ class Login extends Component {
   render() {
     if (this.context.isAuthenticated()) {
       return <Redirect to="/" />;
+    } else if (this.context.netatmoPasswordAuth) {
+      return <Redirect to="/autologin" />;
     } else {
       return (
         <form action={this.oauthURL} method="POST">
