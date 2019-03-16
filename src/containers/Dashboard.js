@@ -46,7 +46,7 @@ class Dashboard extends Component {
 
     this.interval = setInterval(() => {
       this.fetchData();
-    }, 30 * 1000);
+    }, 60 * 1000);
   }
 
   componentWillUnmount() {

@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faClock, faHeart as faEmptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { distanceInWords, subHours } from "date-fns";
+import { LineChart, Line } from "recharts";
 
 import NetatmoClient from "../lib/NetatmoClient.js";
 import SecurityContext from "../lib/SecurityContext.js";
@@ -30,6 +31,8 @@ class Device extends Component {
 
     this.netatmoClient = new NetatmoClient();
     this.fetchTimeSeriesData = this.fetchTimeSeriesData.bind(this);
+    this.timeSeriesDataFor = this.timeSeriesDataFor.bind(this);
+    this.timeSeriesDataAtIndex = this.timeSeriesDataAtIndex.bind(this);
   }
 
   async fetchTimeSeriesData() {
@@ -43,8 +46,6 @@ class Device extends Component {
         dateBegin: Math.round(subHours(now, 1).getTime() / 1000),
         dateEnd: Math.round(now.getTime() / 1000),
       });
-
-      console.log("timeSeriesData", data);
 
       this.setState({
         error: null,
@@ -61,7 +62,7 @@ class Device extends Component {
   }
 
   async componentDidMount() {
-    // await this.fetchTimeSeriesData();
+    await this.fetchTimeSeriesData();
   }
 
   renderHealthIndex(index) {
@@ -81,6 +82,34 @@ class Device extends Component {
     return stars;
   }
 
+  timeSeriesDataAtIndex(index) {
+    const { timeSeriesData } = this.state;
+
+    if (!timeSeriesData) {
+      return [];
+    }
+
+    return Object.keys(timeSeriesData.body).map(key => ({
+      date: key,
+      value: timeSeriesData.body[key][index],
+    }));
+  }
+
+  timeSeriesDataFor(type) {
+    switch (type) {
+      case "co2":
+        return this.timeSeriesDataAtIndex(0);
+      case "humidity":
+        return this.timeSeriesDataAtIndex(1);
+      case "noise":
+        return this.timeSeriesDataAtIndex(2);
+      case "temperature":
+        return this.timeSeriesDataAtIndex(3);
+      default:
+        return [];
+    }
+  }
+
   render() {
     const {
       data: { station_name, dashboard_data, last_status_store },
@@ -95,6 +124,17 @@ class Device extends Component {
           </dt>
           <dd className={this.netatmoClient.temperatureToColor(dashboard_data.Temperature)}>
             {dashboard_data.Temperature}°C
+            {this.timeSeriesDataFor("temperature") && (
+              <LineChart width={300} height={100} data={this.timeSeriesDataFor("temperature")}>
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#8884d8"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
+            )}
           </dd>
 
           <dt>
@@ -102,6 +142,17 @@ class Device extends Component {
           </dt>
           <dd className={this.netatmoClient.humidityToColor(dashboard_data.Humidity)}>
             {dashboard_data.Humidity}%
+            {this.timeSeriesDataFor("humidity") && (
+              <LineChart width={300} height={100} data={this.timeSeriesDataFor("humidity")}>
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#8884d8"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
+            )}
           </dd>
 
           <dt>
@@ -109,6 +160,17 @@ class Device extends Component {
           </dt>
           <dd className={this.netatmoClient.co2ToColor(dashboard_data.CO2)}>
             {dashboard_data.CO2} ppm
+            {this.timeSeriesDataFor("co2") && (
+              <LineChart width={300} height={100} data={this.timeSeriesDataFor("co2")}>
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#8884d8"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
+            )}
           </dd>
 
           <dt>
@@ -116,6 +178,17 @@ class Device extends Component {
           </dt>
           <dd className={this.netatmoClient.noiseToColor(dashboard_data.Noise)}>
             {dashboard_data.Noise} dB
+            {this.timeSeriesDataFor("noise") && (
+              <LineChart width={300} height={100} data={this.timeSeriesDataFor("noise")}>
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#8884d8"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
+            )}
           </dd>
 
           <dt>

@@ -47,8 +47,8 @@ class NetatmoClient {
   }
 
   async getMeasurements(accessToken, options) {
-    const fetchLabel = "Fetching measurements";
-    const processingLabel = "Processing air quality data";
+    const fetchLabel = `Fetching measurements (${options.deviceId})`;
+    const processingLabel = `Processing air quality data (${options.deviceId})`;
     console.time(fetchLabel);
 
     const response = await axios.get("https://api.netatmo.com/api/getmeasure", {
@@ -72,7 +72,7 @@ class NetatmoClient {
     const processedData = convertUnixTimesToDates(data);
     console.timeEnd(processingLabel);
 
-    return response.data;
+    return processedData;
   }
 
   // < 15°: red
