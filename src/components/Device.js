@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faClock, faHeart as faEmptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { distanceInWords, subHours } from "date-fns";
-import { LineChart, Line } from "recharts";
+import { LineChart, Line, YAxis } from "recharts";
 
 import NetatmoClient from "../lib/NetatmoClient.js";
 import SecurityContext from "../lib/SecurityContext.js";
@@ -126,6 +126,7 @@ class Device extends Component {
             {dashboard_data.Temperature}°C
             {this.timeSeriesDataFor("temperature") && (
               <LineChart width={300} height={100} data={this.timeSeriesDataFor("temperature")}>
+                <YAxis type="number" hide={true} domain={[15, dataMax => Math.max(dataMax, 30)]} />
                 <Line
                   type="monotone"
                   dataKey="value"
@@ -144,6 +145,7 @@ class Device extends Component {
             {dashboard_data.Humidity}%
             {this.timeSeriesDataFor("humidity") && (
               <LineChart width={300} height={100} data={this.timeSeriesDataFor("humidity")}>
+                <YAxis type="number" hide={true} domain={[0, 100]} />
                 <Line
                   type="monotone"
                   dataKey="value"
@@ -162,6 +164,11 @@ class Device extends Component {
             {dashboard_data.CO2} ppm
             {this.timeSeriesDataFor("co2") && (
               <LineChart width={300} height={100} data={this.timeSeriesDataFor("co2")}>
+                <YAxis
+                  type="number"
+                  hide={true}
+                  domain={[200, dataMax => Math.max(dataMax, 800)]}
+                />
                 <Line
                   type="monotone"
                   dataKey="value"
@@ -180,6 +187,7 @@ class Device extends Component {
             {dashboard_data.Noise} dB
             {this.timeSeriesDataFor("noise") && (
               <LineChart width={300} height={100} data={this.timeSeriesDataFor("noise")}>
+                <YAxis type="number" hide={true} domain={[10, dataMax => Math.max(dataMax, 80)]} />
                 <Line
                   type="monotone"
                   dataKey="value"
