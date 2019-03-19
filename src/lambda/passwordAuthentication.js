@@ -1,4 +1,5 @@
 const axios = require("axios");
+const encryptor = require("simple-encryptor")(process.env.ENCRYPTION_KEY);
 
 function formUrlEncoded(x) {
   return Object.keys(x)
@@ -22,9 +23,17 @@ export async function handler(event, context) {
       }),
     });
 
+    let data = response.data;
+    if (data.access_token) {
+      data.access_token = encryptor.encrypt(data.access_token);
+    }
+    if (data.refresh_token) {
+      data.refresh_token = encryptor.encrypt(data.refresh_token);
+    }
+
     return {
-      statusCode: 200,
-      body: JSON.stringify(response.data),
+      statusCode: response.status,
+      body: JSON.stringify(data),
     };
   } catch (error) {
     if (error.response) {

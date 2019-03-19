@@ -9,26 +9,19 @@ function formUrlEncoded(x) {
 
 export async function handler(event, context) {
   try {
+    let params = event.queryStringParameters;
+    params["access_token"] = encryptor.decrypt(params["access_token"]);
+
     const response = await axios.request({
-      url: "https://api.netatmo.com/oauth2/token",
+      url: "https://api.netatmo.com/api/gethomecoachsdata",
       method: "post",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      data: formUrlEncoded({
-        grant_type: "authorization_code",
-        client_id: process.env.NETATMO_CLIENT_ID,
-        client_secret: process.env.NETATMO_CLIENT_SECRET,
-        code: event.queryStringParameters.code,
-        redirect_uri: event.queryStringParameters.redirect_uri,
-        scope: "read_homecoach",
-      }),
+      params: params,
     });
 
     let data = response.data;
-    if (data.access_token) {
-      data.access_token = encryptor.encrypt(data.access_token);
-    }
-    if (data.refresh_token) {
-      data.refresh_token = encryptor.encrypt(data.refresh_token);
+    if (data.body && data.body.user) {
+      delete data.body.user;
     }
 
     return {
@@ -36,11 +29,7 @@ export async function handler(event, context) {
       body: JSON.stringify(data),
     };
   } catch (error) {
-    if (error.response) {
-      console.error(error.response.data);
-    } else {
-      console.error(error);
-    }
+    console.error(error.response.data);
 
     const {
       response: { data },

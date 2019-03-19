@@ -32,7 +32,7 @@ class NetatmoClient {
     const processingLabel = "Processing air quality data";
 
     console.time(fetchLabel);
-    const response = await axios.get("https://api.netatmo.com/api/gethomecoachsdata", {
+    const response = await axios.get("/.netlify/functions/getAirQualityData", {
       params: { access_token: accessToken },
     });
     console.timeEnd(fetchLabel);
@@ -51,7 +51,7 @@ class NetatmoClient {
     const processingLabel = `Processing air quality data (${options.deviceId})`;
     console.time(fetchLabel);
 
-    const response = await axios.get("https://api.netatmo.com/api/getmeasure", {
+    const response = await axios.get("/.netlify/functions/getMeasurements", {
       params: {
         access_token: accessToken,
         date_begin: options.dateBegin,
