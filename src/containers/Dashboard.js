@@ -5,6 +5,9 @@ import Screensaver from "../components/Screensaver.js";
 import SecurityContext from "../lib/SecurityContext.js";
 import NetatmoClient from "../lib/NetatmoClient.js";
 
+import HeartIcon from "../images/heart.png";
+import HeartBrokenIcon from "../images/heart-broken.png";
+
 class Dashboard extends Component {
   static contextType = SecurityContext;
 
@@ -53,6 +56,23 @@ class Dashboard extends Component {
     this.screensaverInterval = setInterval(() => {
       this.context.updateContext({ screensaver: true });
     }, 60 * 60 * 1000);
+  }
+
+  updateFavicon(image) {
+    var link = document.querySelector("link[rel*='icon']") || document.createElement("link");
+    link.type = "image/png";
+    link.rel = "icon";
+    link.href = image;
+    document.getElementsByTagName("head")[0].appendChild(link);
+  }
+
+  componentDidUpdate() {
+    const { data } = this.state;
+    if (data) {
+      const healths = data.body.devices.map(device => device.dashboard_data.health_idx);
+      const max = Math.max(...healths);
+      max >= 2 ? this.updateFavicon(HeartBrokenIcon) : this.updateFavicon(HeartIcon);
+    }
   }
 
   componentWillUnmount() {
