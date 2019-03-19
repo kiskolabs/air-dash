@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import Device from "../components/Device.js";
+import Screensaver from "../components/Screensaver.js";
 import SecurityContext from "../lib/SecurityContext.js";
 import NetatmoClient from "../lib/NetatmoClient.js";
 
@@ -47,14 +48,24 @@ class Dashboard extends Component {
     this.interval = setInterval(() => {
       this.fetchData();
     }, 60 * 1000);
+
+    // Launch the screensaver once an hour
+    this.screensaverInterval = setInterval(() => {
+      this.context.updateContext({ screensaver: true });
+    }, 60 * 60 * 1000);
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
+    clearInterval(this.screensaverInterval);
   }
 
   render() {
     const { error, loading, data } = this.state;
+
+    if (this.context.screensaver) {
+      return <Screensaver />;
+    }
 
     if (data) {
       return (
