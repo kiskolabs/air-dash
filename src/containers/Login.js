@@ -51,7 +51,7 @@ class Login extends Component {
     if (this.context.netatmoPasswordAuth) {
       this.timeout = setTimeout(() => {
         this.setState({ autologin: true });
-      }, 1000);
+      }, 5000);
     }
   }
 

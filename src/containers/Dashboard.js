@@ -56,6 +56,8 @@ class Dashboard extends Component {
     this.screensaverInterval = setInterval(() => {
       this.context.updateContext({ screensaver: true });
     }, 60 * 60 * 1000);
+
+    document.addEventListener("mousemove", this.hideIdleCursor);
   }
 
   updateFavicon(image) {
@@ -78,6 +80,46 @@ class Dashboard extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
     clearInterval(this.screensaverInterval);
+
+    this.clearIdleCursor();
+  }
+
+  clearIdleCursor() {
+    document.removeEventListener("mousemove", this.hideIdleCursor);
+    if (this.idleTimeOut) {
+      clearTimeout(this.idleTimeOut);
+    }
+    let style = document.querySelector("#idleCursorStyles");
+    if (style) {
+      style.remove();
+    }
+  }
+
+  hideIdleCursor() {
+    if (this.idleTimeOut) {
+      clearTimeout(this.idleTimeOut);
+    }
+
+    const css = "* { cursor: none }";
+    let style = document.querySelector("#idleCursorStyles");
+
+    if (!style) {
+      style = document.createElement("style");
+      style.id = "idleCursorStyles";
+      style.appendChild(document.createTextNode(css));
+    }
+
+    this.idleTimeOut = setTimeout(() => {
+      if (!this.cursorIsHidden) {
+        document.head.appendChild(style);
+        this.cursorIsHidden = true;
+      }
+    }, 5000);
+
+    if (this.cursorIsHidden) {
+      style.remove();
+      this.cursorIsHidden = false;
+    }
   }
 
   render() {
