@@ -989,6 +989,13 @@
     humps "^2.0.1"
     prop-types "^15.5.10"
 
+"@honeybadger-io/react@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@honeybadger-io/react/-/react-0.0.3.tgz#1fa6d4a978c564c83045d4c911e1a2c7ff633409"
+  integrity sha512-nlcZJQ5xtAlIE6nXP+jjYGoFmgbeqkJw1FfYvk4w5Lw+0B04KsDfasxMFHN9G8FtnDhxKgHJiYAvCoVy0OuV6Q==
+  dependencies:
+    honeybadger-js "^1.0.1"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -4943,6 +4950,11 @@ home-or-tmp@^2.0.0:
   dependencies:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.1"
+
+honeybadger-js@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/honeybadger-js/-/honeybadger-js-1.0.2.tgz#f5abb30c4d036773fe9b2c8c1b77dd855b158dab"
+  integrity sha512-srVvxEfra7UavW9tCVCzH4GG4kVOT1Ie7e+uzqNPwcAFRbKCNlVtxMlBj7RK3zxMgLL0cW3nGrOk5j1CWtxcbg==
 
 hoopy@^0.1.2:
   version "0.1.4"

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
 import { Store, set, keys, get, clear } from "idb-keyval";
+import Honeybadger from "honeybadger-js";
+import ErrorBoundary from "@honeybadger-io/react";
 
 import Dashboard from "./containers/Dashboard.js";
 import Login from "./containers/Login.js";
@@ -12,6 +14,16 @@ import NoMatch from "./containers/NoMatch.js";
 import PrivateRoute from "./components/PrivateRoute.js";
 
 import SecurityContext from "./lib/SecurityContext.js";
+
+const revision = process.env.COMMIT_REF || process.env.GIT_COMMIT || "master";
+
+const honeybadgerConfig = {
+  api_key: "2c0ecf78",
+  environment: process.env.NODE_ENV,
+  revision: revision,
+};
+
+const honeybadger = Honeybadger.configure(honeybadgerConfig);
 
 class App extends Component {
   constructor(props) {
@@ -121,22 +133,24 @@ class App extends Component {
 
   render() {
     return (
-      <SecurityContext.Provider value={this.state}>
-        <Router>
-          <div>
-            {this.isAuthenticated() && !this.state.netatmoPasswordAuth && (
-              <button onClick={this.logOut}>Log out</button>
-            )}
-            <Switch>
-              <PrivateRoute path="/" exact component={Dashboard} />
-              <Route path="/login" exact component={Login} />
-              <Route path="/autologin" exact component={AutoLogin} />
-              <Route path="/code-received/" component={CodeReceived} />
-              <Route component={NoMatch} />
-            </Switch>
-          </div>
-        </Router>
-      </SecurityContext.Provider>
+      <ErrorBoundary honeybadger={honeybadger}>
+        <SecurityContext.Provider value={this.state}>
+          <Router>
+            <div>
+              {this.isAuthenticated() && !this.state.netatmoPasswordAuth && (
+                <button onClick={this.logOut}>Log out</button>
+              )}
+              <Switch>
+                <PrivateRoute path="/" exact component={Dashboard} />
+                <Route path="/login" exact component={Login} />
+                <Route path="/autologin" exact component={AutoLogin} />
+                <Route path="/code-received/" component={CodeReceived} />
+                <Route component={NoMatch} />
+              </Switch>
+            </div>
+          </Router>
+        </SecurityContext.Provider>
+      </ErrorBoundary>
     );
   }
 }
