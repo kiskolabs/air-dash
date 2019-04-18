@@ -15,7 +15,8 @@ import PrivateRoute from "./components/PrivateRoute.js";
 
 import SecurityContext from "./lib/SecurityContext.js";
 
-const revision = process.env.COMMIT_REF || process.env.GIT_COMMIT || "master";
+const revision =
+  process.env.REACT_APP_COMMIT_REF || process.env.COMMIT_REF || process.env.GIT_COMMIT || "master";
 
 const honeybadgerConfig = {
   api_key: "2c0ecf78",
