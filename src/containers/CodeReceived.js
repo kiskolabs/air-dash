@@ -47,16 +47,14 @@ class CodeReceived extends Component {
             {
               error: false,
               loading: false,
-              accessToken: data.access_token,
-              refreshToken: data.refresh_token,
+              tokens: data.tokens,
               expiresIn: expires_in,
               expiresAt,
             },
             () => {
-              const { accessToken, refreshToken, expiresIn, expiresAt } = this.state;
+              const { tokens, expiresIn, expiresAt } = this.state;
               this.context.updateContext({
-                accessToken,
-                refreshToken,
+                tokens,
                 expiresIn,
                 expiresAt,
               });

@@ -1,5 +1,7 @@
 const axios = require("axios");
-const encryptor = require("simple-encryptor")(process.env.ENCRYPTION_KEY);
+const Iron = require("@hapi/iron");
+
+const password = process.env.ENCRYPTION_KEY;
 
 function formUrlEncoded(x) {
   return Object.keys(x)
@@ -10,7 +12,15 @@ function formUrlEncoded(x) {
 export async function handler(event, context) {
   try {
     let params = event.queryStringParameters;
-    params["access_token"] = encryptor.decrypt(params["access_token"]);
+
+    if (!params.tokens) {
+      throw "No tokens";
+    }
+
+    const unsealed = await Iron.unseal(params.tokens, password, Iron.defaults);
+    delete params.tokens;
+
+    params.access_token = unsealed.access_token;
 
     const response = await axios.request({
       url: "https://api.netatmo.com/api/getmeasure",
@@ -24,14 +34,18 @@ export async function handler(event, context) {
       body: JSON.stringify(response.data),
     };
   } catch (error) {
-    console.error(error.response.data);
+    if (error.response) {
+      console.error(error.response.data);
 
-    const {
-      response: { data },
-    } = error;
+      const {
+        response: { data },
+      } = error;
+    } else {
+      console.log(error.message);
+    }
 
     return {
-      statusCode: error.response.status,
+      statusCode: error.response ? error.response.status : 500,
       body: JSON.stringify({ error: `${error.message} (${data.error})` }),
     };
   }

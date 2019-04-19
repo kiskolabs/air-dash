@@ -29,8 +29,8 @@ class Dashboard extends Component {
     await this.setState({ loading: true });
 
     try {
-      const accessToken = await this.context.fetchAccessToken();
-      const data = await this.netatmoClient.getAirQualityData(accessToken);
+      const tokens = await this.context.fetchTokens();
+      const data = await this.netatmoClient.getAirQualityData(tokens);
 
       this.setState({
         error: null,

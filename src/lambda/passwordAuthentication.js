@@ -1,5 +1,7 @@
 const axios = require("axios");
-const encryptor = require("simple-encryptor")(process.env.ENCRYPTION_KEY);
+const Iron = require("@hapi/iron");
+
+const password = process.env.ENCRYPTION_KEY;
 
 function formUrlEncoded(x) {
   return Object.keys(x)
@@ -23,13 +25,18 @@ export async function handler(event, context) {
       }),
     });
 
+    let tokens = {};
     let data = response.data;
     if (data.access_token) {
-      data.access_token = encryptor.encrypt(data.access_token);
+      tokens.access_token = data.access_token;
+      delete data.access_token;
     }
     if (data.refresh_token) {
-      data.refresh_token = encryptor.encrypt(data.refresh_token);
+      tokens.refresh_token = data.refresh_token;
+      delete data.refresh_token;
     }
+
+    data.tokens = await Iron.seal(tokens, password, Iron.defaults);
 
     return {
       statusCode: response.status,
@@ -38,16 +45,16 @@ export async function handler(event, context) {
   } catch (error) {
     if (error.response) {
       console.error(error.response.data);
+
+      const {
+        response: { data },
+      } = error;
     } else {
-      console.error(error);
+      console.log(error.message);
     }
 
-    const {
-      response: { data },
-    } = error;
-
     return {
-      statusCode: error.response.status,
+      statusCode: error.response ? error.response.status : 500,
       body: JSON.stringify({ error: `${error.message} (${data.error})` }),
     };
   }

@@ -36,16 +36,14 @@ class AutoLogin extends Component {
             {
               error: false,
               loading: false,
-              accessToken: data.access_token,
-              refreshToken: data.refresh_token,
+              tokens: data.tokens,
               expiresIn: expires_in,
               expiresAt,
             },
             () => {
-              const { accessToken, refreshToken, expiresIn, expiresAt } = this.state;
+              const { tokens, expiresIn, expiresAt } = this.state;
               this.context.updateContext({
-                accessToken,
-                refreshToken,
+                tokens,
                 expiresIn,
                 expiresAt,
               });
@@ -66,13 +64,13 @@ class AutoLogin extends Component {
   }
 
   render() {
-    const { loading, error, accessToken } = this.state;
+    const { loading, error, tokens } = this.state;
 
     if (loading) {
       return <div>Signing in to Netatmo…</div>;
     } else if (error) {
       return <div>Error: {error}</div>;
-    } else if (accessToken) {
+    } else if (tokens) {
       return <Redirect to="/" />;
     }
 

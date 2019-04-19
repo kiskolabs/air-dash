@@ -34,13 +34,13 @@ class App extends Component {
     this.refreshAccessToken = this.refreshAccessToken = this.refreshAccessToken.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.updateContext = this.updateContext.bind(this);
-    this.fetchAccessToken = this.fetchAccessToken.bind(this);
+    this.fetchTokens = this.fetchTokens.bind(this);
     this.logOut = this.logOut.bind(this);
 
     let state = {
       isAuthenticated: this.isAuthenticated,
       updateContext: this.updateContext,
-      fetchAccessToken: this.fetchAccessToken,
+      fetchTokens: this.fetchTokens,
       logOut: this.logOut,
       netatmoPasswordAuth: !!process.env.REACT_APP_NETATMO_PASSWORD_AUTH,
     };
@@ -67,18 +67,18 @@ class App extends Component {
   }
 
   isAuthenticated() {
-    return !!this.state.accessToken;
+    return !!this.state.tokens;
   }
 
-  async fetchAccessToken() {
+  async fetchTokens() {
     const now = new Date();
-    if (this.state.accessToken && now < this.state.expiresAt) {
+    if (this.state.tokens && now < this.state.expiresAt) {
       console.log("Access token still valid");
-      return this.state.accessToken;
-    } else if (this.state.refreshToken) {
+      return this.state.tokens;
+    } else if (this.state.tokens) {
       console.log("Refreshing access token");
       await this.refreshAccessToken();
-      return await this.fetchAccessToken();
+      return await this.fetchTokens();
     }
   }
 

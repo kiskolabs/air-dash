@@ -38,9 +38,9 @@ class Device extends Component {
     await this.setState({ loading: true });
 
     try {
-      const accessToken = await this.context.fetchAccessToken();
+      const tokens = await this.context.fetchTokens();
       const now = new Date();
-      const data = await this.netatmoClient.getMeasurements(accessToken, {
+      const data = await this.netatmoClient.getMeasurements(tokens, {
         deviceId: this.props.data._id,
         dateBegin: Math.round(subHours(now, 1).getTime() / 1000),
         dateEnd: Math.round(now.getTime() / 1000),

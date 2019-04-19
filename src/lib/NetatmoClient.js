@@ -27,13 +27,13 @@ function convertUnixTimesToDates(object) {
 }
 
 class NetatmoClient {
-  async getAirQualityData(accessToken) {
+  async getAirQualityData(tokens) {
     const fetchLabel = "Fetching air quality data";
     const processingLabel = "Processing air quality data";
 
     console.time(fetchLabel);
     const response = await axios.get("/.netlify/functions/getAirQualityData", {
-      params: { access_token: accessToken },
+      params: { tokens },
     });
     console.timeEnd(fetchLabel);
 
@@ -46,14 +46,14 @@ class NetatmoClient {
     return processedData;
   }
 
-  async getMeasurements(accessToken, options) {
+  async getMeasurements(tokens, options) {
     const fetchLabel = `Fetching measurements (${options.deviceId})`;
     const processingLabel = `Processing air quality data (${options.deviceId})`;
     console.time(fetchLabel);
 
     const response = await axios.get("/.netlify/functions/getMeasurements", {
       params: {
-        access_token: accessToken,
+        tokens: tokens,
         date_begin: options.dateBegin,
         date_end: options.dateEnd,
         device_id: options.deviceId,
