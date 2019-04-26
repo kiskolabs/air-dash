@@ -185,7 +185,7 @@ class NetatmoClient {
   }
 
   healthIndexToWords(index) {
-    return ["Health", "Fine", "Fair", "Poor", "Unhealthy"][index];
+    return ["Healthy", "Fine", "Fair", "Poor", "Unhealthy"][index];
   }
 }
 
