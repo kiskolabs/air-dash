@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faClock, faHeart as faEmptyHeart } from "@fortawesome/free-regular-svg-icons";
-import { distanceInWords, subHours } from "date-fns";
+import { differenceInSeconds, distanceInWords, subHours } from "date-fns";
 import { ResponsiveContainer, LineChart, Line, YAxis } from "recharts";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 import CO2Icon from "./CO2Icon.js";
 import HealthIndexIcon from "./HealthIndexIcon.js";
@@ -114,9 +116,17 @@ class Device extends Component {
       data: { station_name, dashboard_data, last_status_store },
     } = this.props;
 
+    const seconds = differenceInSeconds(new Date(), last_status_store);
+
     return (
       <div>
-        <h1>{station_name}</h1>
+        <h1>
+          {station_name}
+          &nbsp;
+          <div style={{ width: "1em", height: "1em", display: "inline-block" }}>
+            <CircularProgressbar minValue={0} maxValue={10 * 60} value={seconds} />
+          </div>
+        </h1>
         <dl>
           <dt>
             <TemperatureIcon temperature={dashboard_data.Temperature} /> Temperature
@@ -222,11 +232,6 @@ class Device extends Component {
             {this.renderHealthIndex(dashboard_data.health_idx)}{" "}
             {this.netatmoClient.healthIndexToWords(dashboard_data.health_idx)}
           </dd>
-
-          <dt>
-            <FontAwesomeIcon fixedWidth size="lg" icon={faClock} /> Last update
-          </dt>
-          <dd>{distanceInWords(new Date(), last_status_store, { addSuffix: true })}</dd>
         </dl>
       </div>
     );
