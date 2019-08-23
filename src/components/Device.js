@@ -125,7 +125,7 @@ class Device extends Component {
             {dashboard_data.Temperature}
             °C
             {this.timeSeriesDataFor("temperature") && (
-              <ResponsiveContainer width="100%" aspect={3}>
+              <ResponsiveContainer width="100%" aspect={4}>
                 <LineChart data={this.timeSeriesDataFor("temperature")}>
                   <YAxis
                     type="number"
@@ -150,7 +150,7 @@ class Device extends Component {
           <dd className={this.netatmoClient.humidityToColor(dashboard_data.Humidity)}>
             {dashboard_data.Humidity}%
             {this.timeSeriesDataFor("humidity") && (
-              <ResponsiveContainer width="100%" aspect={3}>
+              <ResponsiveContainer width="100%" aspect={4}>
                 <LineChart data={this.timeSeriesDataFor("humidity")}>
                   <YAxis type="number" hide={true} domain={[0, 100]} />
                   <Line
@@ -171,7 +171,7 @@ class Device extends Component {
           <dd className={this.netatmoClient.co2ToColor(dashboard_data.CO2)}>
             {dashboard_data.CO2} ppm
             {this.timeSeriesDataFor("co2") && (
-              <ResponsiveContainer width="100%" aspect={3}>
+              <ResponsiveContainer width="100%" aspect={4}>
                 <LineChart data={this.timeSeriesDataFor("co2")}>
                   <YAxis
                     type="number"
@@ -196,7 +196,7 @@ class Device extends Component {
           <dd className={this.netatmoClient.noiseToColor(dashboard_data.Noise)}>
             {dashboard_data.Noise} dB
             {this.timeSeriesDataFor("noise") && (
-              <ResponsiveContainer width="100%" aspect={3}>
+              <ResponsiveContainer width="100%" aspect={4}>
                 <LineChart data={this.timeSeriesDataFor("noise")}>
                   <YAxis
                     type="number"
