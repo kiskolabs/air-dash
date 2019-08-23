@@ -8,6 +8,8 @@ import NetatmoClient from "../lib/NetatmoClient.js";
 import HeartIcon from "../images/heart.png";
 import HeartBrokenIcon from "../images/heart-broken.png";
 
+import "./Dashboard.css";
+
 class Dashboard extends Component {
   static contextType = SecurityContext;
 
@@ -131,7 +133,7 @@ class Dashboard extends Component {
 
     if (data) {
       return (
-        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+        <div className="grid-container">
           {data.body.devices.map(device => (
             <Device key={device._id} data={device} />
           ))}

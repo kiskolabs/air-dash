@@ -115,7 +115,7 @@ class Device extends Component {
     } = this.props;
 
     return (
-      <div style={{ minWidth: "340px" }}>
+      <div>
         <h1>{station_name}</h1>
         <dl>
           <dt>
