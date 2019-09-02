@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
+import Loader from "../components/Loader.js";
 import SecurityContext from "../lib/SecurityContext.js";
 
 function toHexString(byteArray) {
@@ -68,7 +69,7 @@ class Login extends Component {
       if (this.state.autologin) {
         return <Redirect to="/autologin" />;
       } else {
-        return <span>Loading…</span>;
+        return <Loader />;
       }
     } else {
       return (

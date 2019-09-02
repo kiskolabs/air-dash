@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
+import Loader from "../components/Loader.js";
 import SecurityContext from "../lib/SecurityContext.js";
 
 class CodeReceived extends Component {
@@ -78,7 +79,7 @@ class CodeReceived extends Component {
     const { loading, error, accessToken } = this.state;
 
     if (loading) {
-      return <div>Loading…</div>;
+      return <Loader />;
     } else if (error) {
       return <div>Error: {error}</div>;
     } else if (accessToken) {

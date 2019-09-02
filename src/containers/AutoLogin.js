@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
+import Loader from "../components/Loader.js";
 import SecurityContext from "../lib/SecurityContext.js";
 
 class AutoLogin extends Component {
@@ -67,7 +68,7 @@ class AutoLogin extends Component {
     const { loading, error, tokens } = this.state;
 
     if (loading) {
-      return <div>Signing in to Netatmo…</div>;
+      return <Loader />;
     } else if (error) {
       return <div>Error: {error}</div>;
     } else if (tokens) {

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { PulseLoader } from "react-spinners";
 
 import Device from "../components/Device.js";
+import Loader from "../components/Loader.js";
 import Screensaver from "../components/Screensaver.js";
 import SecurityContext from "../lib/SecurityContext.js";
 import NetatmoClient from "../lib/NetatmoClient.js";
@@ -140,7 +142,7 @@ class Dashboard extends Component {
         </div>
       );
     } else if (loading) {
-      return <div>Loading</div>;
+      return <Loader />;
     } else if (error) {
       return <div>Error! {error}</div>;
     } else {
