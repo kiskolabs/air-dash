@@ -12,15 +12,19 @@ const DATE_KEYS = [
 ];
 
 function convertUnixTimesToDates(object) {
-  for (let key of Object.keys(object)) {
-    if (object.hasOwnProperty(key)) {
-      const value = object[key];
-      if (DATE_KEYS.includes(key) && typeof value === "number") {
-        object[key] = new Date(value * 1000);
-      } else if (typeof value === "object") {
-        object[key] = convertUnixTimesToDates(value);
+  try {
+    for (let key of Object.keys(object)) {
+      if (object.hasOwnProperty(key)) {
+        const value = object[key];
+        if (DATE_KEYS.includes(key) && typeof value === "number") {
+          object[key] = new Date(value * 1000);
+        } else if (typeof value === "object") {
+          object[key] = convertUnixTimesToDates(value);
+        }
       }
     }
+  } catch (e) {
+    console.error(e);
   }
 
   return object;
