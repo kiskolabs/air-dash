@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { PulseLoader } from "react-spinners";
 
 import Device from "../components/Device.js";
 import Loader from "../components/Loader.js";

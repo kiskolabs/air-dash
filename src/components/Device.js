@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { faClock, faHeart as faEmptyHeart } from "@fortawesome/free-regular-svg-icons";
-import { differenceInSeconds, distanceInWords, subHours } from "date-fns";
+import { faHeart as faEmptyHeart } from "@fortawesome/free-regular-svg-icons";
+import { differenceInSeconds, subHours } from "date-fns";
 import { ResponsiveContainer, LineChart, Line, YAxis } from "recharts";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
