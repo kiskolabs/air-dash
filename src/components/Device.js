@@ -8,7 +8,6 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 import CO2Icon from "./CO2Icon.js";
-import HealthIndexIcon from "./HealthIndexIcon.js";
 import HumidityIcon from "./HumidityIcon.js";
 import NoiseIcon from "./NoiseIcon.js";
 import TemperatureIcon from "./TemperatureIcon.js";
@@ -73,11 +72,11 @@ class Device extends Component {
     let stars = [];
 
     for (let i = 1; i <= fullStars; i++) {
-      stars.push(<FontAwesomeIcon fixedWidth key={`star-${i}`} icon={faHeart} />);
+      stars.push(<FontAwesomeIcon fixedWidth key={`star-${i}`} icon={faHeart} size="2x" />);
     }
 
     for (let i = 1; i <= emptyStars; i++) {
-      stars.push(<FontAwesomeIcon fixedWidth key={`empty-${i}`} icon={faEmptyHeart} />);
+      stars.push(<FontAwesomeIcon fixedWidth key={`empty-${i}`} icon={faEmptyHeart} size="2x" />);
     }
 
     return stars;
@@ -225,11 +224,12 @@ class Device extends Component {
             )}
           </dd>
 
-          <dt>
-            <HealthIndexIcon healthIndex={dashboard_data.health_idx} /> Health Index
-          </dt>
-          <dd className={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}>
-            {this.renderHealthIndex(dashboard_data.health_idx)}{" "}
+          <dt />
+          <dd
+            className={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}
+            style={{ textAlign: "center" }}
+          >
+            {this.renderHealthIndex(dashboard_data.health_idx)} <br />
             {this.netatmoClient.healthIndexToWords(dashboard_data.health_idx)}
           </dd>
         </dl>
