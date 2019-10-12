@@ -4,7 +4,6 @@ import { GlyphDot } from "@vx/glyph";
 import { LinePath } from "@vx/shape";
 import { ScaleSVG } from "@vx/responsive";
 import { Text } from "@vx/text";
-import { genDateValue } from "@vx/mock-data";
 import { scaleTime, scaleLinear } from "@vx/scale";
 import { curveMonotoneX } from "@vx/curve";
 
