@@ -95,14 +95,16 @@ class Device extends Component {
     const seconds = differenceInSeconds(new Date(), last_status_store);
 
     return (
-      <div>
-        <h1>
-          {station_name}
-          &nbsp;
-          <div style={{ width: "1em", height: "1em", display: "inline-block" }}>
+      <div className="Device">
+        <header className="row">
+          <div>
+            <h1>{station_name}</h1>
+          </div>
+          <div>
             <CircularProgressbar minValue={0} maxValue={10 * 60} value={seconds} />
           </div>
-        </h1>
+        </header>
+
         <Chart
           data={this.timeSeriesDataFor("temperature")}
           width={400}

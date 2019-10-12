@@ -13,3 +13,24 @@
 .red {
   color: #ff4136;
 }
+
+h1 {
+  margin: 0;
+}
+
+.Device .row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100px;
+  justify-content: space-between;
+}
+
+.Device .CircularProgressbar {
+  width: 50px;
+}
+
+.Device > * + * {
+  margin-bottom: 1em;
+}
