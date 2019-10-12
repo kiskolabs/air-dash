@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as faEmptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { differenceInSeconds, subHours } from "date-fns";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 import Chart from "./Chart.js";
+import HealthIndex from "./HealthIndex.js";
 
 import NetatmoClient from "../lib/NetatmoClient.js";
 import SecurityContext from "../lib/SecurityContext.js";
@@ -59,23 +57,6 @@ class Device extends Component {
 
   async componentDidMount() {
     await this.fetchTimeSeriesData();
-  }
-
-  renderHealthIndex(index) {
-    const emptyStars = index;
-    const fullStars = 5 - emptyStars;
-
-    let stars = [];
-
-    for (let i = 1; i <= fullStars; i++) {
-      stars.push(<FontAwesomeIcon fixedWidth key={`star-${i}`} icon={faHeart} size="2x" />);
-    }
-
-    for (let i = 1; i <= emptyStars; i++) {
-      stars.push(<FontAwesomeIcon fixedWidth key={`empty-${i}`} icon={faEmptyHeart} size="2x" />);
-    }
-
-    return stars;
   }
 
   timeSeriesDataAtIndex(index) {
@@ -171,13 +152,11 @@ class Device extends Component {
           valueSuffix=" dB"
         />
 
-        <div
-          className={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}
-          style={{ textAlign: "center" }}
-        >
-          {this.renderHealthIndex(dashboard_data.health_idx)} <br />
-          {this.netatmoClient.healthIndexToWords(dashboard_data.health_idx)}
-        </div>
+        <HealthIndex
+          value={dashboard_data.health_idx}
+          label={this.netatmoClient.healthIndexToWords(dashboard_data.health_idx)}
+          color={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}
+        />
       </div>
     );
   }
