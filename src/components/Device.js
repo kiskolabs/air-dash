@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faEmptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { differenceInSeconds, subHours } from "date-fns";
-import { ResponsiveContainer, LineChart, Line, YAxis } from "recharts";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
+import Chart from "./Chart.js";
 import CO2Icon from "./CO2Icon.js";
 import HumidityIcon from "./HumidityIcon.js";
 import NoiseIcon from "./NoiseIcon.js";
@@ -90,7 +90,7 @@ class Device extends Component {
     }
 
     return Object.keys(timeSeriesData.body).map(key => ({
-      date: key,
+      date: new Date(parseInt(key, 10) * 1000),
       value: timeSeriesData.body[key][index],
     }));
   }
@@ -134,22 +134,15 @@ class Device extends Component {
             {dashboard_data.Temperature}
             °C
             {this.timeSeriesDataFor("temperature") && (
-              <ResponsiveContainer width="100%" aspect={4}>
-                <LineChart data={this.timeSeriesDataFor("temperature")}>
-                  <YAxis
-                    type="number"
-                    hide={true}
-                    domain={[15, dataMax => Math.max(dataMax, 30)]}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <Chart
+                data={this.timeSeriesDataFor("temperature")}
+                width={400}
+                height={150}
+                margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+                colorFn={this.netatmoClient.temperatureToColor}
+                domain={[15, dataMax => Math.max(dataMax, 30)]}
+                labelText="Temperature"
+              />
             )}
           </dd>
 
@@ -159,18 +152,15 @@ class Device extends Component {
           <dd className={this.netatmoClient.humidityToColor(dashboard_data.Humidity)}>
             {dashboard_data.Humidity}%
             {this.timeSeriesDataFor("humidity") && (
-              <ResponsiveContainer width="100%" aspect={4}>
-                <LineChart data={this.timeSeriesDataFor("humidity")}>
-                  <YAxis type="number" hide={true} domain={[0, 100]} />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <Chart
+                data={this.timeSeriesDataFor("humidity")}
+                width={400}
+                height={150}
+                margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+                colorFn={this.netatmoClient.humidityToColor}
+                domain={[15, 100]}
+                labelText="Humidity"
+              />
             )}
           </dd>
 
@@ -180,22 +170,15 @@ class Device extends Component {
           <dd className={this.netatmoClient.co2ToColor(dashboard_data.CO2)}>
             {dashboard_data.CO2} ppm
             {this.timeSeriesDataFor("co2") && (
-              <ResponsiveContainer width="100%" aspect={4}>
-                <LineChart data={this.timeSeriesDataFor("co2")}>
-                  <YAxis
-                    type="number"
-                    hide={true}
-                    domain={[200, dataMax => Math.max(dataMax, 800)]}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <Chart
+                data={this.timeSeriesDataFor("co2")}
+                width={400}
+                height={150}
+                margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+                colorFn={this.netatmoClient.co2ToColor}
+                domain={[200, dataMax => Math.max(dataMax, 1000)]}
+                labelText="CO₂"
+              />
             )}
           </dd>
 
@@ -205,22 +188,15 @@ class Device extends Component {
           <dd className={this.netatmoClient.noiseToColor(dashboard_data.Noise)}>
             {dashboard_data.Noise} dB
             {this.timeSeriesDataFor("noise") && (
-              <ResponsiveContainer width="100%" aspect={4}>
-                <LineChart data={this.timeSeriesDataFor("noise")}>
-                  <YAxis
-                    type="number"
-                    hide={true}
-                    domain={[10, dataMax => Math.max(dataMax, 80)]}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <Chart
+                data={this.timeSeriesDataFor("noise")}
+                width={400}
+                height={150}
+                margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+                colorFn={this.netatmoClient.noiseToColor}
+                domain={[10, dataMax => Math.max(dataMax, 80)]}
+                labelText="Noise"
+              />
             )}
           </dd>
 
