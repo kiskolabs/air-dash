@@ -7,10 +7,6 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 import Chart from "./Chart.js";
-import CO2Icon from "./CO2Icon.js";
-import HumidityIcon from "./HumidityIcon.js";
-import NoiseIcon from "./NoiseIcon.js";
-import TemperatureIcon from "./TemperatureIcon.js";
 
 import NetatmoClient from "../lib/NetatmoClient.js";
 import SecurityContext from "../lib/SecurityContext.js";
@@ -126,89 +122,62 @@ class Device extends Component {
             <CircularProgressbar minValue={0} maxValue={10 * 60} value={seconds} />
           </div>
         </h1>
-        <dl>
-          <dt>
-            <TemperatureIcon temperature={dashboard_data.Temperature} /> Temperature
-          </dt>
-          <dd className={this.netatmoClient.temperatureToColor(dashboard_data.Temperature)}>
-            {dashboard_data.Temperature}
-            °C
-            {this.timeSeriesDataFor("temperature") && (
-              <Chart
-                data={this.timeSeriesDataFor("temperature")}
-                width={400}
-                height={150}
-                margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
-                colorFn={this.netatmoClient.temperatureToColor}
-                domain={[15, dataMax => Math.max(dataMax, 30)]}
-                labelText="Temperature"
-              />
-            )}
-          </dd>
+        <Chart
+          data={this.timeSeriesDataFor("temperature")}
+          width={400}
+          height={150}
+          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          colorFn={this.netatmoClient.temperatureToColor}
+          domain={[15, dataMax => Math.max(dataMax, 30)]}
+          labelText="Temperature"
+          latestValue={dashboard_data.Temperature}
+          valueSuffix="°C"
+          icon
+        />
 
-          <dt>
-            <HumidityIcon humidity={dashboard_data.Humidity} /> Humidity
-          </dt>
-          <dd className={this.netatmoClient.humidityToColor(dashboard_data.Humidity)}>
-            {dashboard_data.Humidity}%
-            {this.timeSeriesDataFor("humidity") && (
-              <Chart
-                data={this.timeSeriesDataFor("humidity")}
-                width={400}
-                height={150}
-                margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
-                colorFn={this.netatmoClient.humidityToColor}
-                domain={[15, 100]}
-                labelText="Humidity"
-              />
-            )}
-          </dd>
+        <Chart
+          data={this.timeSeriesDataFor("humidity")}
+          width={400}
+          height={150}
+          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          colorFn={this.netatmoClient.humidityToColor}
+          domain={[15, 100]}
+          labelText="Humidity"
+          latestValue={dashboard_data.Humidity}
+          valueSuffix="%"
+        />
 
-          <dt>
-            <CO2Icon co2={dashboard_data.CO2} /> CO₂
-          </dt>
-          <dd className={this.netatmoClient.co2ToColor(dashboard_data.CO2)}>
-            {dashboard_data.CO2} ppm
-            {this.timeSeriesDataFor("co2") && (
-              <Chart
-                data={this.timeSeriesDataFor("co2")}
-                width={400}
-                height={150}
-                margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
-                colorFn={this.netatmoClient.co2ToColor}
-                domain={[200, dataMax => Math.max(dataMax, 1000)]}
-                labelText="CO₂"
-              />
-            )}
-          </dd>
+        <Chart
+          data={this.timeSeriesDataFor("co2")}
+          width={400}
+          height={150}
+          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          colorFn={this.netatmoClient.co2ToColor}
+          domain={[200, dataMax => Math.max(dataMax, 1000)]}
+          labelText="CO₂"
+          latestValue={dashboard_data.CO2}
+          valueSuffix=" ppm"
+        />
 
-          <dt>
-            <NoiseIcon noise={dashboard_data.Noise} /> Noise
-          </dt>
-          <dd className={this.netatmoClient.noiseToColor(dashboard_data.Noise)}>
-            {dashboard_data.Noise} dB
-            {this.timeSeriesDataFor("noise") && (
-              <Chart
-                data={this.timeSeriesDataFor("noise")}
-                width={400}
-                height={150}
-                margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
-                colorFn={this.netatmoClient.noiseToColor}
-                domain={[10, dataMax => Math.max(dataMax, 80)]}
-                labelText="Noise"
-              />
-            )}
-          </dd>
+        <Chart
+          data={this.timeSeriesDataFor("noise")}
+          width={400}
+          height={150}
+          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          colorFn={this.netatmoClient.noiseToColor}
+          domain={[10, dataMax => Math.max(dataMax, 80)]}
+          labelText="Noise"
+          latestValue={dashboard_data.Noise}
+          valueSuffix=" dB"
+        />
 
-          <dt />
-          <dd
-            className={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}
-            style={{ textAlign: "center" }}
-          >
-            {this.renderHealthIndex(dashboard_data.health_idx)} <br />
-            {this.netatmoClient.healthIndexToWords(dashboard_data.health_idx)}
-          </dd>
-        </dl>
+        <div
+          className={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}
+          style={{ textAlign: "center" }}
+        >
+          {this.renderHealthIndex(dashboard_data.health_idx)} <br />
+          {this.netatmoClient.healthIndexToWords(dashboard_data.health_idx)}
+        </div>
       </div>
     );
   }

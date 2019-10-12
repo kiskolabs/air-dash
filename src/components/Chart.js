@@ -22,13 +22,23 @@ const colors = {
 
 const Label = ({ text, ...rest }) => {
   return (
-    <Text x={0} verticalAnchor="start" {...rest}>
+    <Text x={0} {...rest}>
       {text}
     </Text>
   );
 };
 
-export default ({ data, width, height, margin, colorFn, domain, labelText }) => {
+export default ({
+  data,
+  width,
+  height,
+  margin,
+  colorFn,
+  domain,
+  labelText,
+  latestValue,
+  valueSuffix,
+}) => {
   // accessors
   const date = d => d.date;
   const value = d => d.value;
@@ -67,6 +77,8 @@ export default ({ data, width, height, margin, colorFn, domain, labelText }) => 
   xScale.range([margin.left, xMax]);
   yScale.range([yMax, margin.top]);
 
+  const valueText = `${latestValue}${valueSuffix}`;
+
   return (
     <ScaleSVG width={width} height={height}>
       <rect x={0} y={0} width={width} height={height} fill={secondary} rx={14} />
@@ -92,7 +104,19 @@ export default ({ data, width, height, margin, colorFn, domain, labelText }) => 
           width={width}
           y={margin.top}
           x={margin.left}
+          verticalAnchor="start"
           style={{ fontSize: "22px" }}
+        />
+      )}
+      {latestValue && (
+        <Label
+          text={valueText}
+          width={width}
+          y={margin.top}
+          x={width - margin.right}
+          verticalAnchor="start"
+          textAnchor="end"
+          style={{ fontSize: "22px", fill: colors[colorFn(latestValue)] }}
         />
       )}
     </ScaleSVG>
