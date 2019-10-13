@@ -28,6 +28,11 @@ h1 {
   justify-content: space-between;
 }
 
+.Device header h1 {
+  vertical-align: middle;
+  line-height: 50px;
+}
+
 .Device .CircularProgressbar {
   width: 50px;
 }
