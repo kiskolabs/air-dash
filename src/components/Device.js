@@ -156,7 +156,7 @@ class Device extends Component {
           height={140}
           margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
           colorFn={this.netatmoClient.noiseToColor}
-          domain={[10, dataMax => Math.max(dataMax, 80)]}
+          domain={[20, dataMax => Math.max(dataMax, 80)]}
           labelText="Noise"
           latestValue={dashboard_data.Noise}
           valuePrecision={0}
