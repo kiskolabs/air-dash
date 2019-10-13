@@ -108,7 +108,7 @@ class Device extends Component {
         <Chart
           data={this.timeSeriesDataFor("temperature")}
           width={400}
-          height={150}
+          height={140}
           margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
           colorFn={this.netatmoClient.temperatureToColor}
           domain={[15, dataMax => Math.max(dataMax, 30)]}
@@ -121,7 +121,7 @@ class Device extends Component {
         <Chart
           data={this.timeSeriesDataFor("humidity")}
           width={400}
-          height={150}
+          height={140}
           margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
           colorFn={this.netatmoClient.humidityToColor}
           domain={[15, 100]}
@@ -133,7 +133,7 @@ class Device extends Component {
         <Chart
           data={this.timeSeriesDataFor("co2")}
           width={400}
-          height={150}
+          height={140}
           margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
           colorFn={this.netatmoClient.co2ToColor}
           domain={[200, dataMax => Math.max(dataMax, 1000)]}
@@ -145,7 +145,7 @@ class Device extends Component {
         <Chart
           data={this.timeSeriesDataFor("noise")}
           width={400}
-          height={150}
+          height={140}
           margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
           colorFn={this.netatmoClient.noiseToColor}
           domain={[10, dataMax => Math.max(dataMax, 80)]}
