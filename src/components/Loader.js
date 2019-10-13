@@ -1,9 +1,14 @@
 import React, { Component } from "react";
-import { PulseLoader } from "react-spinners";
+
+import "./Loader.css";
 
 class Loader extends Component {
   render() {
-    return <PulseLoader {...this.props} />;
+    return (
+      <div className="Loader">
+        <span>Loading…</span>
+      </div>
+    );
   }
 }
 
