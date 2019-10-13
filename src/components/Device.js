@@ -96,7 +96,7 @@ class Device extends Component {
 
     return (
       <div className="Device">
-        <header className="row">
+        <header>
           <div>
             <h1>{station_name}</h1>
           </div>
