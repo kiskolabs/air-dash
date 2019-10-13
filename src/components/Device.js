@@ -116,7 +116,7 @@ class Device extends Component {
           height={140}
           margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
           colorFn={this.netatmoClient.temperatureToColor}
-          domain={[15, dataMax => Math.max(dataMax, 30)]}
+          domain={[dataMin => Math.min(dataMin, 20), dataMax => Math.max(dataMax, 30)]}
           labelText="Temperature"
           latestValue={dashboard_data.Temperature}
           valueSuffix="°C"
