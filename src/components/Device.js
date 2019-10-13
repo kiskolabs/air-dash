@@ -1,16 +1,10 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as faEmptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { differenceInSeconds, subHours } from "date-fns";
-import { ResponsiveContainer, LineChart, Line, YAxis } from "recharts";
-import { CircularProgressbar } from "react-circular-progressbar";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-import CO2Icon from "./CO2Icon.js";
-import HumidityIcon from "./HumidityIcon.js";
-import NoiseIcon from "./NoiseIcon.js";
-import TemperatureIcon from "./TemperatureIcon.js";
+import Chart from "./Chart.js";
+import HealthIndex from "./HealthIndex.js";
 
 import NetatmoClient from "../lib/NetatmoClient.js";
 import SecurityContext from "../lib/SecurityContext.js";
@@ -65,23 +59,6 @@ class Device extends Component {
     await this.fetchTimeSeriesData();
   }
 
-  renderHealthIndex(index) {
-    const emptyStars = index;
-    const fullStars = 5 - emptyStars;
-
-    let stars = [];
-
-    for (let i = 1; i <= fullStars; i++) {
-      stars.push(<FontAwesomeIcon fixedWidth key={`star-${i}`} icon={faHeart} size="2x" />);
-    }
-
-    for (let i = 1; i <= emptyStars; i++) {
-      stars.push(<FontAwesomeIcon fixedWidth key={`empty-${i}`} icon={faEmptyHeart} size="2x" />);
-    }
-
-    return stars;
-  }
-
   timeSeriesDataAtIndex(index) {
     const { timeSeriesData } = this.state;
 
@@ -90,7 +67,7 @@ class Device extends Component {
     }
 
     return Object.keys(timeSeriesData.body).map(key => ({
-      date: key,
+      date: new Date(parseInt(key, 10) * 1000),
       value: timeSeriesData.body[key][index],
     }));
   }
@@ -118,121 +95,75 @@ class Device extends Component {
     const seconds = differenceInSeconds(new Date(), last_status_store);
 
     return (
-      <div>
-        <h1>
-          {station_name}
-          &nbsp;
-          <div style={{ width: "1em", height: "1em", display: "inline-block" }}>
-            <CircularProgressbar minValue={0} maxValue={10 * 60} value={seconds} />
+      <div className="Device">
+        <header>
+          <div>
+            <h1>{station_name}</h1>
           </div>
-        </h1>
-        <dl>
-          <dt>
-            <TemperatureIcon temperature={dashboard_data.Temperature} /> Temperature
-          </dt>
-          <dd className={this.netatmoClient.temperatureToColor(dashboard_data.Temperature)}>
-            {dashboard_data.Temperature}
-            °C
-            {this.timeSeriesDataFor("temperature") && (
-              <ResponsiveContainer width="100%" aspect={4}>
-                <LineChart data={this.timeSeriesDataFor("temperature")}>
-                  <YAxis
-                    type="number"
-                    hide={true}
-                    domain={[15, dataMax => Math.max(dataMax, 30)]}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            )}
-          </dd>
+          <div>
+            <CircularProgressbar
+              minValue={0}
+              maxValue={10 * 60}
+              value={seconds}
+              styles={buildStyles({ pathColor: "#aaaaaa", trailColor: "#f2f2f2" })}
+            />
+          </div>
+        </header>
 
-          <dt>
-            <HumidityIcon humidity={dashboard_data.Humidity} /> Humidity
-          </dt>
-          <dd className={this.netatmoClient.humidityToColor(dashboard_data.Humidity)}>
-            {dashboard_data.Humidity}%
-            {this.timeSeriesDataFor("humidity") && (
-              <ResponsiveContainer width="100%" aspect={4}>
-                <LineChart data={this.timeSeriesDataFor("humidity")}>
-                  <YAxis type="number" hide={true} domain={[0, 100]} />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            )}
-          </dd>
+        <Chart
+          data={this.timeSeriesDataFor("temperature")}
+          width={400}
+          height={140}
+          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          colorFn={this.netatmoClient.temperatureToColor}
+          domain={[15, dataMax => Math.max(dataMax, 30)]}
+          labelText="Temperature"
+          latestValue={dashboard_data.Temperature}
+          valueSuffix="°C"
+          icon
+        />
 
-          <dt>
-            <CO2Icon co2={dashboard_data.CO2} /> CO₂
-          </dt>
-          <dd className={this.netatmoClient.co2ToColor(dashboard_data.CO2)}>
-            {dashboard_data.CO2} ppm
-            {this.timeSeriesDataFor("co2") && (
-              <ResponsiveContainer width="100%" aspect={4}>
-                <LineChart data={this.timeSeriesDataFor("co2")}>
-                  <YAxis
-                    type="number"
-                    hide={true}
-                    domain={[200, dataMax => Math.max(dataMax, 800)]}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            )}
-          </dd>
+        <Chart
+          data={this.timeSeriesDataFor("humidity")}
+          width={400}
+          height={140}
+          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          colorFn={this.netatmoClient.humidityToColor}
+          domain={[15, 100]}
+          labelText="Humidity"
+          latestValue={dashboard_data.Humidity}
+          valueSuffix="%"
+        />
 
-          <dt>
-            <NoiseIcon noise={dashboard_data.Noise} /> Noise
-          </dt>
-          <dd className={this.netatmoClient.noiseToColor(dashboard_data.Noise)}>
-            {dashboard_data.Noise} dB
-            {this.timeSeriesDataFor("noise") && (
-              <ResponsiveContainer width="100%" aspect={4}>
-                <LineChart data={this.timeSeriesDataFor("noise")}>
-                  <YAxis
-                    type="number"
-                    hide={true}
-                    domain={[10, dataMax => Math.max(dataMax, 80)]}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            )}
-          </dd>
+        <Chart
+          data={this.timeSeriesDataFor("co2")}
+          width={400}
+          height={140}
+          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          colorFn={this.netatmoClient.co2ToColor}
+          domain={[200, dataMax => Math.max(dataMax, 1000)]}
+          labelText="CO₂"
+          latestValue={dashboard_data.CO2}
+          valueSuffix=" ppm"
+        />
 
-          <dt />
-          <dd
-            className={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}
-            style={{ textAlign: "center" }}
-          >
-            {this.renderHealthIndex(dashboard_data.health_idx)} <br />
-            {this.netatmoClient.healthIndexToWords(dashboard_data.health_idx)}
-          </dd>
-        </dl>
+        <Chart
+          data={this.timeSeriesDataFor("noise")}
+          width={400}
+          height={140}
+          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          colorFn={this.netatmoClient.noiseToColor}
+          domain={[10, dataMax => Math.max(dataMax, 80)]}
+          labelText="Noise"
+          latestValue={dashboard_data.Noise}
+          valueSuffix=" dB"
+        />
+
+        <HealthIndex
+          value={dashboard_data.health_idx}
+          label={this.netatmoClient.healthIndexToWords(dashboard_data.health_idx)}
+          color={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}
+        />
       </div>
     );
   }

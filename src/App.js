@@ -137,10 +137,9 @@ class App extends Component {
       <ErrorBoundary honeybadger={honeybadger}>
         <SecurityContext.Provider value={this.state}>
           <Router>
-            <div>
-              {this.isAuthenticated() && !this.state.netatmoPasswordAuth && (
-                <button onClick={this.logOut}>Log out</button>
-              )}
+            <>
+              {this.isAuthenticated() &&
+                !this.state.netatmoPasswordAuth && <button onClick={this.logOut}>Log out</button>}
               <Switch>
                 <PrivateRoute path="/" exact component={Dashboard} />
                 <Route path="/login" exact component={Login} />
@@ -148,7 +147,7 @@ class App extends Component {
                 <Route path="/code-received/" component={CodeReceived} />
                 <Route component={NoMatch} />
               </Switch>
-            </div>
+            </>
           </Router>
         </SecurityContext.Provider>
       </ErrorBoundary>
