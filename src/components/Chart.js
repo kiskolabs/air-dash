@@ -8,9 +8,9 @@ import { scaleTime, scaleLinear } from "@vx/scale";
 import { curveMonotoneX } from "@vx/curve";
 
 // colors
-const primary = "#2e2e2e";
-const secondary = "#f2f2f2";
-const contrast = "#ffffff";
+const defaultPrimary = "#2e2e2e";
+const defaultSecondary = "#f2f2f2";
+const defaultContrast = "#ffffff";
 
 const colors = {
   green: "#3d9970",
@@ -18,6 +18,14 @@ const colors = {
   yellow: "#ffdc00",
   orange: "#ff851b",
   red: "#ff4136",
+};
+
+const secondaryColors = {
+  green: "#b2ffdc",
+  blue: "#b2dbff",
+  yellow: "#fff3a5",
+  orange: "#ffc899",
+  red: "#ff9e99",
 };
 
 const Label = ({ text, ...rest }) => {
@@ -77,11 +85,23 @@ export default ({
 
   const valueText = `${latestValue.toFixed(valuePrecision || 0)}${valueSuffix}`;
 
+  let secondary = defaultSecondary;
+  if (latestValue) {
+    secondary = secondaryColors[colorFn(latestValue)];
+  }
+
   return (
     <ScaleSVG width={width} height={height}>
       <rect x={0} y={0} width={width} height={height} fill={secondary} rx={14} />
       <Group top={margin.top}>
-        <LinePath data={data} x={x} y={y} stroke={primary} strokeWidth={3} curve={curveMonotoneX} />
+        <LinePath
+          data={data}
+          x={x}
+          y={y}
+          stroke={defaultPrimary}
+          strokeWidth={3}
+          curve={curveMonotoneX}
+        />
         {data.map((d, i) => {
           const cx = x(d);
           const cy = y(d);
@@ -89,9 +109,16 @@ export default ({
 
           return (
             <g key={`line-point-${i}`}>
-              <GlyphDot cx={cx} cy={cy} r={6} fill={contrast} stroke={secondary} strokeWidth={5} />
+              <GlyphDot
+                cx={cx}
+                cy={cy}
+                r={6}
+                fill={defaultContrast}
+                stroke={secondary}
+                strokeWidth={5}
+              />
               <GlyphDot cx={cx} cy={cy} r={6} fill={secondary} stroke={color} strokeWidth={3} />
-              <GlyphDot cx={cx} cy={cy} r={4} fill={contrast} />
+              <GlyphDot cx={cx} cy={cy} r={4} fill={defaultContrast} />
             </g>
           );
         })}
