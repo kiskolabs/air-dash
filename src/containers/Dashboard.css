@@ -5,3 +5,10 @@
   grid-template-areas: ". . .";
   grid-gap: 2em;
 }
+
+@media (max-width: 824px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-areas: ".";
+  }
+}
