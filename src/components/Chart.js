@@ -45,7 +45,6 @@ export default ({
 
   const dataMin = Math.min(...data.map(value));
   const dataMax = Math.max(...data.map(value));
-  console.log("domain", domain);
 
   if (typeof domain[0] === "function") {
     domain[0] = domain[0](dataMin);
@@ -54,8 +53,6 @@ export default ({
   if (typeof domain[1] === "function") {
     domain[1] = domain[1](dataMax);
   }
-
-  console.log("AA", domain);
 
   // scales
   const xScale = scaleTime({
