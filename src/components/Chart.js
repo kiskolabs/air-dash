@@ -72,7 +72,7 @@ export default ({
   const yMax = height - margin.top - margin.bottom;
 
   // update scale range to match bounds
-  xScale.range([margin.left, xMax]);
+  xScale.range([margin.left + margin.right, xMax]);
   yScale.range([yMax, margin.top]);
 
   const valueText = `${latestValue.toFixed(valuePrecision || 0)}${valueSuffix}`;
