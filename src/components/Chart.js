@@ -113,7 +113,7 @@ export default ({
           x={width - margin.right}
           verticalAnchor="start"
           textAnchor="end"
-          style={{ fontSize: "22px", fill: colors[colorFn(latestValue)] }}
+          style={{ fontWeight: "700", fontSize: "22px", fill: colors[colorFn(latestValue)] }}
         />
       )}
     </ScaleSVG>
