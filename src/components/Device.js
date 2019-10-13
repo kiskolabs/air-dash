@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { differenceInSeconds, subHours } from "date-fns";
-import { CircularProgressbar } from "react-circular-progressbar";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 import Chart from "./Chart.js";
@@ -101,7 +101,12 @@ class Device extends Component {
             <h1>{station_name}</h1>
           </div>
           <div>
-            <CircularProgressbar minValue={0} maxValue={10 * 60} value={seconds} />
+            <CircularProgressbar
+              minValue={0}
+              maxValue={10 * 60}
+              value={seconds}
+              styles={buildStyles({ pathColor: "#aaaaaa", trailColor: "#f2f2f2" })}
+            />
           </div>
         </header>
 
