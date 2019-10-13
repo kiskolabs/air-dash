@@ -38,6 +38,7 @@ export default ({
   labelText,
   latestValue,
   valueSuffix,
+  valuePrecision,
 }) => {
   // accessors
   const date = d => d.date;
@@ -74,7 +75,7 @@ export default ({
   xScale.range([margin.left, xMax]);
   yScale.range([yMax, margin.top]);
 
-  const valueText = `${latestValue}${valueSuffix}`;
+  const valueText = `${latestValue.toFixed(valuePrecision || 0)}${valueSuffix}`;
 
   return (
     <ScaleSVG width={width} height={height}>

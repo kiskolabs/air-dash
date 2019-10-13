@@ -120,6 +120,7 @@ class Device extends Component {
           labelText="Temperature"
           latestValue={dashboard_data.Temperature}
           valueSuffix="°C"
+          valuePrecision={1}
           icon
         />
 
@@ -132,6 +133,7 @@ class Device extends Component {
           domain={[15, 100]}
           labelText="Humidity"
           latestValue={dashboard_data.Humidity}
+          valuePrecision={0}
           valueSuffix="%"
         />
 
@@ -144,6 +146,7 @@ class Device extends Component {
           domain={[200, dataMax => Math.max(dataMax, 1000)]}
           labelText="CO₂"
           latestValue={dashboard_data.CO2}
+          valuePrecision={0}
           valueSuffix=" ppm"
         />
 
@@ -156,6 +159,7 @@ class Device extends Component {
           domain={[10, dataMax => Math.max(dataMax, 80)]}
           labelText="Noise"
           latestValue={dashboard_data.Noise}
+          valuePrecision={0}
           valueSuffix=" dB"
         />
 
