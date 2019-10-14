@@ -11,6 +11,7 @@ import AutoLogin from "./containers/AutoLogin.js";
 import CodeReceived from "./containers/CodeReceived.js";
 import NoMatch from "./containers/NoMatch.js";
 
+import ErrorComponent from "./components/ErrorComponent.js";
 import PrivateRoute from "./components/PrivateRoute.js";
 
 import SecurityContext from "./lib/SecurityContext.js";
@@ -134,7 +135,7 @@ class App extends Component {
 
   render() {
     return (
-      <ErrorBoundary honeybadger={honeybadger}>
+      <ErrorBoundary honeybadger={honeybadger} ErrorComponent={ErrorComponent}>
         <SecurityContext.Provider value={this.state}>
           <Router>
             <>

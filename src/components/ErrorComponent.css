@@ -1,0 +1,12 @@
+.ErrorComponent {
+  height: calc(100vh - 2rem);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ErrorComponent .Error {
+  width: 500px;
+  max-width: 90%;
+}
