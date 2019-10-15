@@ -3,7 +3,7 @@
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 2fr;
   grid-template-areas: ". . .";
-  grid-gap: 4em;
+  grid-gap: 4.5em;
 }
 
 @media (max-width: 824px) {
