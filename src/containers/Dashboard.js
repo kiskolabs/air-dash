@@ -29,6 +29,7 @@ class Dashboard extends Component {
   }
 
   async fetchData() {
+    console.log("Fetching dashboard data");
     await this.setState({ loading: true });
 
     try {

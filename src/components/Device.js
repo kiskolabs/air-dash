@@ -30,6 +30,7 @@ class Device extends Component {
   }
 
   async fetchTimeSeriesData() {
+    console.log("Fetching device data for", this.props.data.station_name);
     await this.setState({ loading: true });
 
     try {
