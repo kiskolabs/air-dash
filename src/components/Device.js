@@ -105,7 +105,7 @@ class Device extends Component {
               minValue={0}
               maxValue={10 * 60}
               value={seconds}
-              styles={buildStyles({ pathColor: "#aaaaaa", trailColor: "#f2f2f2" })}
+              styles={buildStyles({ pathColor: "#AEB4CB", trailColor: "rgba(255,255,255,0.1)" })}
             />
           </div>
         </header>
@@ -113,8 +113,8 @@ class Device extends Component {
         <Chart
           data={this.timeSeriesDataFor("temperature")}
           width={400}
-          height={140}
-          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          height={125}
+          margin={{ left: 15, top: 15, right: 15, bottom: 15 }}
           colorFn={this.netatmoClient.temperatureToColor}
           domain={[dataMin => Math.min(dataMin, 20), dataMax => Math.max(dataMax, 30)]}
           labelText="Temperature"
@@ -127,11 +127,12 @@ class Device extends Component {
         <Chart
           data={this.timeSeriesDataFor("humidity")}
           width={400}
-          height={140}
-          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          height={125}
+          margin={{ left: 15, top: 15, right: 15, bottom: 15 }}
           colorFn={this.netatmoClient.humidityToColor}
           domain={[15, 100]}
           labelText="Humidity"
+          borderRadius="100"
           latestValue={dashboard_data.Humidity}
           valuePrecision={0}
           valueSuffix="%"
@@ -140,8 +141,8 @@ class Device extends Component {
         <Chart
           data={this.timeSeriesDataFor("co2")}
           width={400}
-          height={140}
-          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          height={125}
+          margin={{ left: 15, top: 15, right: 15, bottom: 15 }}
           colorFn={this.netatmoClient.co2ToColor}
           domain={[200, dataMax => Math.max(dataMax, 1000)]}
           labelText="CO₂"
@@ -153,8 +154,8 @@ class Device extends Component {
         <Chart
           data={this.timeSeriesDataFor("noise")}
           width={400}
-          height={140}
-          margin={{ left: 10, top: 10, right: 10, bottom: 10 }}
+          height={125}
+          margin={{ left: 15, top: 15, right: 15, bottom: 15 }}
           colorFn={this.netatmoClient.noiseToColor}
           domain={[20, dataMax => Math.max(dataMax, 80)]}
           labelText="Noise"

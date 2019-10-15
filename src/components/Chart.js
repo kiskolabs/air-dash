@@ -10,22 +10,24 @@ import { curveMonotoneX } from "@vx/curve";
 // colors
 const defaultPrimary = "#2e2e2e";
 const defaultSecondary = "#f2f2f2";
-const defaultContrast = "#ffffff";
+const defaultContrast = "rgb(79,82,110)";
+const defaultStroke = "rgb(17,3,35)";
+const grayStroke = "#AEB4CB";
 
 const colors = {
-  green: "#3d9970",
-  blue: "#0074d9",
-  yellow: "#ffdc00",
-  orange: "#ff851b",
-  red: "#ff4136",
+  green: '#80FF86',
+  blue: '#FF7A8A',
+  yellow: "#AEB4CB",
+  orange: "#FFCA66",
+  red: "#FF7A8A",
 };
 
 const secondaryColors = {
-  green: "#b2ffdc",
-  blue: "#b2dbff",
-  yellow: "#fff3a5",
-  orange: "#ffc899",
-  red: "#ff9e99",
+  green: 'rgba(128,255,134,0.15)',
+  blue: 'rgba(255,122,138,0.15)',
+  yellow: 'rgba(174,180,203,0.10)',
+  orange: 'rgba(255,202,102,0.15)',
+  red: 'rgba(255,122,138,0.15)',
 };
 
 const Label = ({ text, ...rest }) => {
@@ -92,13 +94,13 @@ export default ({
 
   return (
     <ScaleSVG width={width} height={height}>
-      <rect x={0} y={0} width={width} height={height} fill={secondary} rx={14} />
+      <rect x={0} y={0} width={width} height={height} fill={secondary} rx={0} />
       <Group top={margin.top}>
         <LinePath
           data={data}
           x={x}
           y={y}
-          stroke={defaultPrimary}
+          stroke={defaultStroke}
           strokeWidth={3}
           curve={curveMonotoneX}
         />
@@ -114,10 +116,9 @@ export default ({
                 cy={cy}
                 r={6}
                 fill={defaultContrast}
-                stroke={secondary}
                 strokeWidth={5}
               />
-              <GlyphDot cx={cx} cy={cy} r={6} fill={secondary} stroke={color} strokeWidth={3} />
+              <GlyphDot cx={cx} cy={cy} r={6} fill={secondary} stroke={color} strokeWidth={2} />
               <GlyphDot cx={cx} cy={cy} r={4} fill={defaultContrast} />
             </g>
           );
@@ -130,7 +131,7 @@ export default ({
           y={margin.top}
           x={margin.left}
           verticalAnchor="start"
-          style={{ fontSize: "22px" }}
+          style={{ fontSize: "22px", fill: '#AEB4CB' }}
         />
       )}
       {latestValue && (
@@ -141,7 +142,7 @@ export default ({
           x={width - margin.right}
           verticalAnchor="start"
           textAnchor="end"
-          style={{ fontWeight: "700", fontSize: "22px", fill: colors[colorFn(latestValue)] }}
+          style={{ fontWeight: "600", fontSize: "22px", fill: colors[colorFn(latestValue)] }}
         />
       )}
     </ScaleSVG>

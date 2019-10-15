@@ -12,17 +12,17 @@ export default ({ value, label, color }) => {
   let stars = [];
 
   for (let i = 1; i <= fullStars; i++) {
-    stars.push(<FontAwesomeIcon fixedWidth key={`star-${i}`} icon={faHeart} size="2x" />);
+    stars.push(<FontAwesomeIcon fixedWidth key={`star-${i}`} icon={faHeart} size="1x" />);
   }
 
   for (let i = 1; i <= emptyStars; i++) {
-    stars.push(<FontAwesomeIcon fixedWidth key={`empty-${i}`} icon={faEmptyHeart} size="2x" />);
+    stars.push(<FontAwesomeIcon fixedWidth key={`empty-${i}`} icon={faEmptyHeart} size="1x" />);
   }
 
   return (
     <div className={`HealthIndex ${color}`}>
       {stars} <br />
-      {label}
+      <span>{label}</span>
     </div>
   );
 };
