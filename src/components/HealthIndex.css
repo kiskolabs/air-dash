@@ -1,6 +1,7 @@
 .HealthIndex {
   text-align: center;
   font-size: 1.5rem;
+  margin-bottom: 0 !important;
 }
 
 .HealthIndex span {
