@@ -10,7 +10,7 @@ import tinycolor from "tinycolor2";
 
 // colors
 const defaultSecondary = "#f2f2f2";
-const defaultContrast = "rgb(79,82,110)";
+// const defaultContrast = "rgb(79,82,110)";
 const defaultStroke = "rgb(17,3,35)";
 
 const colors = {
