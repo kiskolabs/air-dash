@@ -8,7 +8,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@hapi/iron": "^5.1.0",
-    "@honeybadger-io/react": "^0.0.3",
+    "@honeybadger-io/react": "^0.0.4",
     "@vx/curve": "^0.0.192",
     "@vx/glyph": "^0.0.192",
     "@vx/group": "^0.0.192",

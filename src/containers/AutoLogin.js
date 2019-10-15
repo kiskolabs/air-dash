@@ -73,9 +73,9 @@ class AutoLogin extends Component {
       return <div>Error: {error}</div>;
     } else if (tokens) {
       return <Redirect to="/" />;
+    } else {
+      throw new Error("Unexpected login state");
     }
-
-    return <div>AutoLogin</div>;
   }
 }
 
