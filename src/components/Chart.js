@@ -16,7 +16,7 @@ const grayStroke = "#AEB4CB";
 
 const colors = {
   green: '#80FF86',
-  blue: '#FF7A8A',
+  blue: '#80FF86',
   yellow: "#AEB4CB",
   orange: "#FFCA66",
   red: "#FF7A8A",
@@ -24,7 +24,7 @@ const colors = {
 
 const secondaryColors = {
   green: 'rgba(128,255,134,0.15)',
-  blue: 'rgba(255,122,138,0.15)',
+  blue: 'rgba(128,255,134,0.15)',
   yellow: 'rgba(174,180,203,0.10)',
   orange: 'rgba(255,202,102,0.15)',
   red: 'rgba(255,122,138,0.15)',
