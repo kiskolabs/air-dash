@@ -6,6 +6,7 @@ import { ScaleSVG } from "@vx/responsive";
 import { Text } from "@vx/text";
 import { scaleTime, scaleLinear } from "@vx/scale";
 import { curveMonotoneX } from "@vx/curve";
+import tinycolor from "tinycolor2";
 
 // colors
 const defaultSecondary = "#f2f2f2";
@@ -106,12 +107,20 @@ export default ({
           const cx = x(d);
           const cy = y(d);
           const color = colors[colorFn(d.value)];
+          const secondary = secondaryColors[colorFn(d.value)];
+          const contrast = tinycolor.mix(
+            tinycolor.mix("#343662", "#0f0f27", 50),
+            tinycolor(secondary).setAlpha(1),
+            tinycolor(secondary).getAlpha() * 100
+          );
+
+          console.log(tinycolor(secondary).getAlpha());
 
           return (
             <g key={`line-point-${i}`}>
-              <GlyphDot cx={cx} cy={cy} r={6} fill={defaultContrast} strokeWidth={5} />
+              <GlyphDot cx={cx} cy={cy} r={6} fill={contrast} strokeWidth={5} />
               <GlyphDot cx={cx} cy={cy} r={6} fill={secondary} stroke={color} strokeWidth={2} />
-              <GlyphDot cx={cx} cy={cy} r={4} fill={defaultContrast} />
+              <GlyphDot cx={cx} cy={cy} r={4} fill={contrast} />
             </g>
           );
         })}
