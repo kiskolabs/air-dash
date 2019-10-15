@@ -27,6 +27,7 @@ class AutoLogin extends Component {
         if (data.error) {
           await this.setState({
             error: data.error,
+            tokens: null,
             loading: false,
           });
         } else {
@@ -55,6 +56,7 @@ class AutoLogin extends Component {
     } catch (error) {
       await this.setState({
         error: error.message,
+        tokens: null,
         loading: false,
       });
     }
