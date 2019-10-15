@@ -8,26 +8,24 @@ import { scaleTime, scaleLinear } from "@vx/scale";
 import { curveMonotoneX } from "@vx/curve";
 
 // colors
-const defaultPrimary = "#2e2e2e";
 const defaultSecondary = "#f2f2f2";
 const defaultContrast = "rgb(79,82,110)";
 const defaultStroke = "rgb(17,3,35)";
-const grayStroke = "#AEB4CB";
 
 const colors = {
-  green: '#80FF86',
-  blue: '#80FF86',
+  green: "#80FF86",
+  blue: "#80FF86",
   yellow: "#AEB4CB",
   orange: "#FFCA66",
   red: "#FF7A8A",
 };
 
 const secondaryColors = {
-  green: 'rgba(128,255,134,0.15)',
-  blue: 'rgba(128,255,134,0.15)',
-  yellow: 'rgba(174,180,203,0.10)',
-  orange: 'rgba(255,202,102,0.15)',
-  red: 'rgba(255,122,138,0.15)',
+  green: "rgba(128,255,134,0.15)",
+  blue: "rgba(128,255,134,0.15)",
+  yellow: "rgba(174,180,203,0.10)",
+  orange: "rgba(255,202,102,0.15)",
+  red: "rgba(255,122,138,0.15)",
 };
 
 const Label = ({ text, ...rest }) => {
@@ -111,13 +109,7 @@ export default ({
 
           return (
             <g key={`line-point-${i}`}>
-              <GlyphDot
-                cx={cx}
-                cy={cy}
-                r={6}
-                fill={defaultContrast}
-                strokeWidth={5}
-              />
+              <GlyphDot cx={cx} cy={cy} r={6} fill={defaultContrast} strokeWidth={5} />
               <GlyphDot cx={cx} cy={cy} r={6} fill={secondary} stroke={color} strokeWidth={2} />
               <GlyphDot cx={cx} cy={cy} r={4} fill={defaultContrast} />
             </g>
@@ -131,7 +123,7 @@ export default ({
           y={margin.top}
           x={margin.left}
           verticalAnchor="start"
-          style={{ fontSize: "22px", fill: '#AEB4CB' }}
+          style={{ fontSize: "22px", fill: "#AEB4CB" }}
         />
       )}
       {latestValue && (
