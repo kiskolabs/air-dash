@@ -114,8 +114,6 @@ export default ({
             tinycolor(secondary).getAlpha() * 100
           );
 
-          console.log(tinycolor(secondary).getAlpha());
-
           return (
             <g key={`line-point-${i}`}>
               <GlyphDot cx={cx} cy={cy} r={6} fill={contrast} strokeWidth={5} />
