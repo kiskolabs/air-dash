@@ -6,7 +6,19 @@
   grid-gap: 4.5em;
 }
 
-@media (max-width: 824px) {
+@media (max-width: 1280px) {
+  .grid-container {
+    grid-gap: 3em;
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid-container {
+    grid-gap: 2em;
+  }
+}
+
+@media (max-width: 924px) {
   .grid-container {
     grid-template-columns: 1fr;
     grid-template-areas: ".";
