@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { differenceInSeconds, subHours } from "date-fns";
+import { differenceInSeconds, subHours, isSameMinute } from "date-fns";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
@@ -75,16 +75,29 @@ class Device extends Component {
   timeSeriesDataFor(type) {
     switch (type) {
       case "co2":
-        return this.timeSeriesDataAtIndex(0);
+        return this.addLatestValueToSeries(this.timeSeriesDataAtIndex(0), "CO2");
       case "humidity":
-        return this.timeSeriesDataAtIndex(1);
+        return this.addLatestValueToSeries(this.timeSeriesDataAtIndex(1), "Humidity");
       case "noise":
-        return this.timeSeriesDataAtIndex(2);
+        return this.addLatestValueToSeries(this.timeSeriesDataAtIndex(2), "Noise");
       case "temperature":
-        return this.timeSeriesDataAtIndex(3);
+        return this.addLatestValueToSeries(this.timeSeriesDataAtIndex(3), "Temperature");
       default:
         return [];
     }
+  }
+
+  addLatestValueToSeries(series, type) {
+    const {
+      data: { dashboard_data },
+    } = this.props;
+
+    const last = series[series.length - 1];
+    if (last && !isSameMinute(last.date, dashboard_data.time_utc)) {
+      series.push({ date: dashboard_data.time_utc, value: dashboard_data[type] });
+    }
+
+    return series;
   }
 
   render() {
