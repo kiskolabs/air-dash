@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Device from "../components/Device.js";
 import Loader from "../components/Loader.js";
 import Screensaver from "../components/Screensaver.js";
+import ErrorComponent from "../components/ErrorComponent.js";
 import SecurityContext from "../lib/SecurityContext.js";
 import NetatmoClient from "../lib/NetatmoClient.js";
 
@@ -43,7 +44,7 @@ class Dashboard extends Component {
       });
     } catch (err) {
       this.setState({
-        error: err.message,
+        error: err,
         loading: false,
       });
     }
@@ -129,10 +130,12 @@ class Dashboard extends Component {
   render() {
     const { error, loading, data } = this.state;
 
+    console.log("error", error);
+
     if (loading) {
       return <Loader />;
     } else if (error) {
-      return <div>Error! {error}</div>;
+      return <ErrorComponent error={error} />;
     } else {
       const devices = data ? data.body.devices : [];
       return (
