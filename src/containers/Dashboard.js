@@ -129,24 +129,22 @@ class Dashboard extends Component {
   render() {
     const { error, loading, data } = this.state;
 
-    if (this.context.screensaver) {
-      return <Screensaver />;
-    }
-
-    if (data) {
-      return (
-        <div className="grid-container">
-          {data.body.devices.map(device => (
-            <Device key={device._id} data={device} />
-          ))}
-        </div>
-      );
-    } else if (loading) {
+    if (loading) {
       return <Loader />;
     } else if (error) {
       return <div>Error! {error}</div>;
     } else {
-      return <div>Dashboard</div>;
+      const devices = data ? data.body.devices : [];
+      return (
+        <>
+          <div className="grid-container">
+            {devices.map(device => (
+              <Device key={device._id} data={device} />
+            ))}
+          </div>
+          {this.context.screensaver && <Screensaver />}
+        </>
+      );
     }
   }
 }
