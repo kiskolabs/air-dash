@@ -93,7 +93,7 @@ export default ({
 
   return (
     <ScaleSVG width={width} height={height}>
-      <rect x={0} y={0} width={width} height={height} fill={secondary} rx={0} />
+      <rect x={0} y={0} width={width} height={height} fill={secondary} rx={7.5} />
       <Group top={margin.top}>
         <LinePath
           data={data}
