@@ -130,7 +130,7 @@ class Dashboard extends Component {
   render() {
     const { error, loading, data } = this.state;
 
-    if (loading) {
+    if (loading && !data) {
       return <Loader />;
     } else if (error) {
       return <ErrorComponent error={error} />;
