@@ -55,7 +55,7 @@ class Dashboard extends Component {
 
     this.interval = setInterval(() => {
       this.fetchData();
-    }, 90 * 1000);
+    }, 60 * 1000);
 
     // Launch the screensaver once an hour
     this.screensaverInterval = setInterval(() => {

@@ -59,17 +59,17 @@ class Device extends Component {
   async componentDidMount() {
     await this.fetchTimeSeriesData();
 
-    // Wait between 180 and 240 seconds before updating the data
-    const seconds = Math.floor(Math.random() * 60) + 180;
+    // Wait between 60 and 90 seconds before updating the data
+    const milliseconds = Math.floor(Math.random() * (30 * 1000)) + 60 * 1000;
     console.log(
       this.props.data.station_name,
       "timeseries data will be updated every",
-      seconds,
-      "ms"
+      (milliseconds / 1000).toFixed(1),
+      "seconds"
     );
     this.interval = setInterval(() => {
       this.fetchTimeSeriesData();
-    }, seconds * 1000);
+    }, milliseconds);
   }
 
   componentWillUnmount() {
