@@ -61,7 +61,7 @@ export async function handler(event, context) {
 
     return {
       statusCode: error.response ? error.response.status : 500,
-      body: JSON.stringify({ error: `${error.message} (${data.error})` }),
+      body: JSON.stringify({ error: `${error.message}` }),
     };
   }
 }
