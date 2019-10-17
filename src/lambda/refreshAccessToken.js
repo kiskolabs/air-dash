@@ -49,14 +49,9 @@ export async function handler(event, context) {
       body: JSON.stringify(data),
     };
   } catch (error) {
-    if (error.response) {
+    console.error(error);
+    if (error.response && error.response.data) {
       console.error(error.response.data);
-
-      const {
-        response: { data },
-      } = error;
-    } else {
-      console.log(error.message);
     }
 
     return {
