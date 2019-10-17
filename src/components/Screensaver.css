@@ -6,6 +6,16 @@
   bottom: 0;
   right: 0;
   overflow: hidden;
+  animation: fadein 2s ease-in;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /*
