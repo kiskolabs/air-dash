@@ -1,9 +1,12 @@
 .grid-container {
+  margin: 0 3rem;
   display: grid;
+  min-height: 100vh;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 2fr;
-  grid-template-areas: ". . .";
+  grid-template-rows: auto;
   grid-gap: 4.5em;
+  align-content: center;
+
 }
 
 @media (max-width: 1280px) {
@@ -20,6 +23,7 @@
 
 @media (max-width: 924px) {
   .grid-container {
+    margin: 2rem 1rem;
     grid-template-columns: 1fr;
     grid-template-areas: ".";
   }
