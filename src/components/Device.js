@@ -174,7 +174,7 @@ class Device extends Component {
           height={125}
           margin={{ left: 15, top: 15, right: 15, bottom: 15 }}
           colorFn={this.netatmoClient.co2ToColor}
-          domain={[200, dataMax => Math.max(dataMax, 1000)]}
+          domain={[300, dataMax => Math.max(dataMax, 1600)]}
           labelText="CO₂"
           latestValue={dashboard_data.CO2}
           valuePrecision={0}
