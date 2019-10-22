@@ -83,7 +83,6 @@ class CodeReceived extends Component {
       return <Loader />;
     } else if (error) {
       return <ErrorComponent error={error} />;
-      return <div>Error: {error}</div>;
     } else if (accessToken) {
       return <Redirect to="/" />;
     }
