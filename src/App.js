@@ -42,6 +42,7 @@ class App extends Component {
       isAuthenticated: this.isAuthenticated,
       updateContext: this.updateContext,
       fetchTokens: this.fetchTokens,
+      forceReloadPage: this.forceReloadPage,
       logOut: this.logOut,
       netatmoPasswordAuth: !!process.env.REACT_APP_NETATMO_PASSWORD_AUTH,
     };
@@ -125,6 +126,18 @@ class App extends Component {
     }
 
     await this.setState(newContext);
+  }
+
+  forceReloadPage() {
+    navigator.serviceWorker.getRegistration().then(function(reg) {
+      if (reg) {
+        reg.unregister().then(function() {
+          window.location.reload(true);
+        });
+      } else {
+        window.location.reload(true);
+      }
+    });
   }
 
   logOut() {

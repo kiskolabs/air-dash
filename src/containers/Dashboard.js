@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import Device from "../components/Device.js";
 import Loader from "../components/Loader.js";
@@ -27,6 +28,7 @@ class Dashboard extends Component {
     };
 
     this.fetchData = this.fetchData.bind(this);
+    this.fetchDeployStatus = this.fetchDeployStatus.bind(this);
   }
 
   async fetchData() {
@@ -50,9 +52,46 @@ class Dashboard extends Component {
     }
   }
 
+  async fetchDeployStatus() {
+    console.log("Fetching deploy status");
+
+    try {
+      const response = await axios.get("/deploy.json");
+      let { data } = response;
+
+      console.log("Deploy", data);
+
+      const revisonWas = this.context.deployRevision;
+      const revisionChanged = revisonWas !== data.revision;
+      const needsRefresh = revisonWas && revisionChanged;
+
+      if (revisionChanged) {
+        await this.setState(
+          {
+            deployRevision: data.revision,
+            deployDate: new Date(data.date),
+          },
+          () => {
+            const { deployRevision, deployDate } = this.state;
+            this.context.updateContext({
+              deployRevision,
+              deployDate,
+            });
+
+            if (needsRefresh) {
+              console.info("Reloading page to get the latest frontend");
+              window.setTimeout(this.context.forceReloadPage, 1000);
+            }
+          }
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   async componentDidMount() {
     await this.fetchData();
-
     this.interval = setInterval(() => {
       this.fetchData();
     }, 60 * 1000);
@@ -63,6 +102,11 @@ class Dashboard extends Component {
     }, 60 * 60 * 1000);
 
     document.addEventListener("mousemove", this.hideIdleCursor);
+
+    // Check for a new deployment
+    this.deployInterval = setInterval(() => {
+      this.fetchDeployStatus();
+    }, 60 * 1000);
   }
 
   updateFavicon(image) {
@@ -85,6 +129,7 @@ class Dashboard extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
     clearInterval(this.screensaverInterval);
+    clearInterval(this.deployInterval);
 
     this.clearIdleCursor();
   }
