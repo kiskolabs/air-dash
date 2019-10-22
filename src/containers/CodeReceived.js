@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
+import ErrorComponent from "../components/ErrorComponent.js";
 import Loader from "../components/Loader.js";
 import SecurityContext from "../lib/SecurityContext.js";
 
@@ -65,7 +66,7 @@ class CodeReceived extends Component {
       }
     } catch (error) {
       await this.setState({
-        error: error.message,
+        error: error,
         loading: false,
       });
     }
@@ -81,6 +82,7 @@ class CodeReceived extends Component {
     if (loading) {
       return <Loader />;
     } else if (error) {
+      return <ErrorComponent error={error} />;
       return <div>Error: {error}</div>;
     } else if (accessToken) {
       return <Redirect to="/" />;

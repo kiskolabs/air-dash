@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
+import ErrorComponent from "../components/ErrorComponent.js";
 import Loader from "../components/Loader.js";
 import SecurityContext from "../lib/SecurityContext.js";
 
@@ -55,7 +56,7 @@ class AutoLogin extends Component {
       }
     } catch (error) {
       await this.setState({
-        error: error.message,
+        error: error,
         tokens: null,
         loading: false,
       });
@@ -72,7 +73,7 @@ class AutoLogin extends Component {
     if (loading) {
       return <Loader />;
     } else if (error) {
-      return <div>Error: {error}</div>;
+      return <ErrorComponent error={error} />;
     } else if (tokens) {
       return <Redirect to="/" />;
     } else {
