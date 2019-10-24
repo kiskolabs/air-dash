@@ -4,6 +4,7 @@ import axios from "axios";
 import Device from "../components/Device.js";
 import Loader from "../components/Loader.js";
 import Screensaver from "../components/Screensaver.js";
+import ErrorBar from "../components/ErrorBar.js";
 import ErrorComponent from "../components/ErrorComponent.js";
 import SecurityContext from "../lib/SecurityContext.js";
 import NetatmoClient from "../lib/NetatmoClient.js";
@@ -177,7 +178,7 @@ class Dashboard extends Component {
 
     if (loading && !data) {
       return <Loader />;
-    } else if (error) {
+    } else if (error && !data) {
       return <ErrorComponent error={error} />;
     } else {
       const devices = data ? data.body.devices : [];
@@ -188,6 +189,7 @@ class Dashboard extends Component {
               <Device key={device._id} data={device} />
             ))}
           </div>
+          {error && <ErrorBar error={error} />}
           {this.context.screensaver && <Screensaver />}
         </>
       );
