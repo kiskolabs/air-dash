@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { differenceInSeconds, subHours, isSameMinute } from "date-fns";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import "react-circular-progressbar/dist/styles.css";
 
 import Chart from "./Chart.js";
@@ -121,6 +123,7 @@ class Device extends Component {
     const {
       data: { station_name, dashboard_data, last_status_store },
     } = this.props;
+    const { error } = this.state;
 
     const seconds = differenceInSeconds(new Date(), last_status_store);
 
@@ -131,12 +134,22 @@ class Device extends Component {
             <h1>{station_name}</h1>
           </div>
           <div>
-            <CircularProgressbar
-              minValue={0}
-              maxValue={10 * 60}
-              value={seconds}
-              styles={buildStyles({ pathColor: "#AEB4CB", trailColor: "rgba(255,255,255,0.1)" })}
-            />
+            {error ? (
+              <FontAwesomeIcon
+                title={error}
+                fixedWidth
+                icon={faExclamationTriangle}
+                size="3x"
+                color="#ffca66"
+              />
+            ) : (
+              <CircularProgressbar
+                minValue={0}
+                maxValue={10 * 60}
+                value={seconds}
+                styles={buildStyles({ pathColor: "#AEB4CB", trailColor: "rgba(255,255,255,0.1)" })}
+              />
+            )}
           </div>
         </header>
 
