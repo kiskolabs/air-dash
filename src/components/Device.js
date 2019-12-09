@@ -161,7 +161,7 @@ class Device extends Component {
           colorFn={this.netatmoClient.temperatureToColor}
           domain={[dataMin => Math.min(dataMin, 20), dataMax => Math.max(dataMax, 30)]}
           labelText="Temperature"
-          latestValue={dashboard_data.Temperature}
+          latestValue={dashboard_data && dashboard_data.Temperature}
           valueSuffix="°C"
           valuePrecision={1}
           icon
@@ -176,7 +176,7 @@ class Device extends Component {
           domain={[15, 100]}
           labelText="Humidity"
           borderRadius="100"
-          latestValue={dashboard_data.Humidity}
+          latestValue={dashboard_data && dashboard_data.Humidity}
           valuePrecision={0}
           valueSuffix="%"
         />
@@ -189,7 +189,7 @@ class Device extends Component {
           colorFn={this.netatmoClient.co2ToColor}
           domain={[300, dataMax => Math.max(dataMax, 1800)]}
           labelText="CO₂"
-          latestValue={dashboard_data.CO2}
+          latestValue={dashboard_data && dashboard_data.CO2}
           valuePrecision={0}
           valueSuffix=" ppm"
         />
@@ -202,16 +202,18 @@ class Device extends Component {
           colorFn={this.netatmoClient.noiseToColor}
           domain={[20, dataMax => Math.max(dataMax, 80)]}
           labelText="Noise"
-          latestValue={dashboard_data.Noise}
+          latestValue={dashboard_data && dashboard_data.Noise}
           valuePrecision={0}
           valueSuffix=" dB"
         />
 
-        <HealthIndex
-          value={dashboard_data.health_idx}
-          label={this.netatmoClient.healthIndexToWords(dashboard_data.health_idx)}
-          color={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}
-        />
+        {dashboard_data && (
+          <HealthIndex
+            value={dashboard_data.health_idx}
+            label={this.netatmoClient.healthIndexToWords(dashboard_data.health_idx)}
+            color={this.netatmoClient.healthIndexToColor(dashboard_data.health_idx)}
+          />
+        )}
       </div>
     );
   }

@@ -121,7 +121,9 @@ class Dashboard extends Component {
   componentDidUpdate() {
     const { data } = this.state;
     if (data) {
-      const healths = data.body.devices.map(device => device.dashboard_data.health_idx);
+      const healths = data.body.devices.map(
+        device => device.dashboard_data && device.dashboard_data.health_idx
+      );
       const max = Math.max(...healths);
       max >= 2 ? this.updateFavicon(HeartBrokenIcon) : this.updateFavicon(HeartIcon);
     }

@@ -9,7 +9,7 @@ import { curveMonotoneX } from "@vx/curve";
 import tinycolor from "tinycolor2";
 
 // colors
-const defaultSecondary = "#f2f2f2";
+const defaultSecondary = "rgba(34, 38, 70, 0.5)";
 // const defaultContrast = "rgb(79,82,110)";
 const defaultStroke = "rgb(17,3,35)";
 
@@ -84,7 +84,7 @@ export default ({
   xScale.range([margin.left + margin.right, xMax]);
   yScale.range([yMax, margin.top]);
 
-  const valueText = `${latestValue.toFixed(valuePrecision || 0)}${valueSuffix}`;
+  const valueText = latestValue ? `${latestValue.toFixed(valuePrecision || 0)}${valueSuffix}` : "";
 
   let secondary = defaultSecondary;
   if (latestValue) {
