@@ -31,14 +31,12 @@ function convertUnixTimesToDates(object) {
 }
 
 class NetatmoClient {
-  async getAirQualityData(tokens) {
+  async getAirQualityData() {
     const fetchLabel = "Fetching air quality data";
     const processingLabel = "Processing air quality data";
 
     console.time(fetchLabel);
-    const response = await axios.get("/.netlify/functions/getAirQualityData", {
-      params: { tokens },
-    });
+    const response = await axios.get("https://air-api.kiskolabs.net/air_quality_data");
     console.timeEnd(fetchLabel);
 
     let { data } = response;
@@ -50,22 +48,14 @@ class NetatmoClient {
     return processedData;
   }
 
-  async getMeasurements(tokens, options) {
+  async getMeasurements(options) {
     const fetchLabel = `Fetching measurements (${options.deviceId})`;
     const processingLabel = `Processing air quality data (${options.deviceId})`;
     console.time(fetchLabel);
 
-    const response = await axios.get("/.netlify/functions/getMeasurements", {
+    const response = await axios.get("https://air-api.kiskolabs.net/measurements", {
       params: {
-        tokens: tokens,
-        date_begin: options.dateBegin,
-        date_end: options.dateEnd,
         device_id: options.deviceId,
-        limit: options.limit,
-        optimize: !!options.optimize,
-        real_time: !!options.realTime,
-        scale: options.scale || "max",
-        type: options.type || "CO2,Humidity,Noise,Temperature",
       },
     });
     console.timeEnd(fetchLabel);

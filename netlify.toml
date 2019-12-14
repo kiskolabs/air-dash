@@ -2,4 +2,3 @@
   command = "yarn build"
   functions = "lambda"
   publish = "build"
-  environment = { NETATMO_CLIENT_ID = "5c7677276c3203de288cc167", NETATMO_CLIENT_SECRET = "sJzleplzjma7T3RgVwp2EGUdXP5ajPLL", ENCRYPTION_KEY = "fe0ced530daa12b5a39cabcc63acaabf" }

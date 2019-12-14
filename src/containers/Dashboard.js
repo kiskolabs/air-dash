@@ -37,8 +37,7 @@ class Dashboard extends Component {
     await this.setState({ loading: true });
 
     try {
-      const tokens = await this.context.fetchTokens();
-      const data = await this.netatmoClient.getAirQualityData(tokens);
+      const data = await this.netatmoClient.getAirQualityData();
 
       this.setState({
         error: null,
@@ -121,7 +120,7 @@ class Dashboard extends Component {
   componentDidUpdate() {
     const { data } = this.state;
     if (data) {
-      const healths = data.body.devices.map(
+      const healths = data.devices.map(
         device => device.dashboard_data && device.dashboard_data.health_idx
       );
       const max = Math.max(...healths);
@@ -183,7 +182,7 @@ class Dashboard extends Component {
     } else if (error && !data) {
       return <ErrorComponent error={error} />;
     } else {
-      const devices = data ? data.body.devices : [];
+      const devices = data ? data.devices : [];
       return (
         <>
           <div className="grid-container">

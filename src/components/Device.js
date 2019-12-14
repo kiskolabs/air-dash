@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { differenceInSeconds, subHours, isSameMinute } from "date-fns";
+import { differenceInSeconds, isSameMinute } from "date-fns";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
@@ -36,12 +36,8 @@ class Device extends Component {
     await this.setState({ loading: true });
 
     try {
-      const tokens = await this.context.fetchTokens();
-      const now = new Date();
-      const data = await this.netatmoClient.getMeasurements(tokens, {
+      const data = await this.netatmoClient.getMeasurements({
         deviceId: this.props.data._id,
-        dateBegin: Math.round(subHours(now, 1).getTime() / 1000),
-        dateEnd: Math.round(now.getTime() / 1000),
       });
 
       this.setState({
@@ -85,9 +81,9 @@ class Device extends Component {
       return [];
     }
 
-    return Object.keys(timeSeriesData.body).map(key => ({
+    return Object.keys(timeSeriesData).map(key => ({
       date: new Date(parseInt(key, 10) * 1000),
-      value: timeSeriesData.body[key][index],
+      value: timeSeriesData[key][index],
     }));
   }
 

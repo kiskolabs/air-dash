@@ -7,8 +7,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.7.2",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
-    "@hapi/iron": "^5.1.0",
-    "@honeybadger-io/react": "^0.0.4",
+    "@honeybadger-io/react": "https://github.com/honeybadger-io/honeybadger-react#a327cf24fe27d125c97aa46de71cef1ad72efb1f",
     "@vx/curve": "^0.0.192",
     "@vx/glyph": "^0.0.192",
     "@vx/group": "^0.0.192",
@@ -30,10 +29,8 @@
   "scripts": {
     "start": "run-p start:**",
     "start:app": "react-scripts start",
-    "start:lambda": "netlify-lambda serve src/lambda",
     "build": "run-p build:**",
     "build:app": "export REACT_APP_COMMIT_REF=\"$COMMIT_REF\" && react-scripts build",
-    "build:lambda": "netlify-lambda build src/lambda",
     "build:deployjson": "echo \"{\\\"revision\\\": \\\"${COMMIT_REF:-$(git rev-parse HEAD)}\\\", \\\"date\\\": \\\"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\\\"}\" > public/deploy.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -50,7 +47,6 @@
   "devDependencies": {
     "babel-loader": "^8.0.6",
     "http-proxy-middleware": "^0.19.1",
-    "netlify-lambda": "^1.4.2",
     "npm-run-all": "^4.1.5"
   }
 }
