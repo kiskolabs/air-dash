@@ -4,7 +4,7 @@ import "./ErrorComponent.css";
 
 class ErrorComponent extends Component {
   state = {
-    reloadCountdown: 30,
+    reloadCountdown: 60,
   };
 
   componentDidMount() {

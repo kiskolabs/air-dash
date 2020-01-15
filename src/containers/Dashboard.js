@@ -106,7 +106,7 @@ class Dashboard extends Component {
     // Check for a new deployment
     this.deployInterval = setInterval(() => {
       this.fetchDeployStatus();
-    }, 60 * 1000);
+    }, 45 * 1000);
   }
 
   updateFavicon(image) {
