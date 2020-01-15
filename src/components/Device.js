@@ -81,10 +81,12 @@ class Device extends Component {
       return [];
     }
 
-    return Object.keys(timeSeriesData).map(key => ({
+    let data = Object.keys(timeSeriesData).map(key => ({
       date: new Date(parseInt(key, 10) * 1000),
       value: timeSeriesData[key][index],
     }));
+
+    return data.filter((obj) => obj.value);
   }
 
   timeSeriesDataFor(type) {
