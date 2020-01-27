@@ -109,9 +109,11 @@ class Device extends Component {
       data: { dashboard_data },
     } = this.props;
 
-    const last = series[series.length - 1];
-    if (last && !isSameMinute(last.date, dashboard_data.time_utc)) {
-      series.push({ date: dashboard_data.time_utc, value: dashboard_data[type] });
+    if (dashboard_data) {
+      const last = series[series.length - 1];
+      if (last && !isSameMinute(last.date, dashboard_data.time_utc)) {
+        series.push({ date: dashboard_data.time_utc, value: dashboard_data[type] });
+      }
     }
 
     return series;
