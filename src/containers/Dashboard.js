@@ -182,7 +182,7 @@ class Dashboard extends Component {
     } else if (error && !data) {
       return <ErrorComponent error={error} />;
     } else {
-      const devices = data ? data.devices : [];
+      const devices = data && data.devices ? data.devices : [];
       return (
         <>
           <div className="grid-container">
