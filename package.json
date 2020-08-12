@@ -7,7 +7,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.7.2",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
-    "@honeybadger-io/react": "https://github.com/honeybadger-io/honeybadger-react#a327cf24fe27d125c97aa46de71cef1ad72efb1f",
+    "@honeybadger-io/react": "^0.0.7",
     "@vx/curve": "^0.0.192",
     "@vx/glyph": "^0.0.192",
     "@vx/group": "^0.0.192",
