@@ -119,7 +119,7 @@ class Dashboard extends Component {
 
   componentDidUpdate() {
     const { data } = this.state;
-    if (data) {
+    if (data && data.devices) {
       const healths = data.devices.map(
         device => device.dashboard_data && device.dashboard_data.health_idx
       );
