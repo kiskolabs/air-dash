@@ -30,16 +30,25 @@ function convertUnixTimesToDates(object) {
   return object;
 }
 
+const API_BASE_URL =
+  import.meta.env.VITE_AIR_API_BASE_URL || "https://air-api.kiskolabs.net";
+const API_TIMEOUT_MS = 15000;
+
 class NetatmoClient {
   async getAirQualityData() {
     const fetchLabel = "Fetching air quality data";
     const processingLabel = "Processing air quality data";
 
     console.time(fetchLabel);
-    const response = await axios.get("https://air-api.kiskolabs.net/air_quality_data");
+    const response = await axios.get(`${API_BASE_URL}/air_quality_data`, {
+      timeout: API_TIMEOUT_MS,
+    });
     console.timeEnd(fetchLabel);
 
     let { data } = response;
+    if (data && data.error) {
+      throw new Error(data.error);
+    }
 
     console.time(processingLabel);
     const processedData = convertUnixTimesToDates(data);
@@ -53,7 +62,8 @@ class NetatmoClient {
     const processingLabel = `Processing air quality data (${options.deviceId})`;
     console.time(fetchLabel);
 
-    const response = await axios.get("https://air-api.kiskolabs.net/measurements", {
+    const response = await axios.get(`${API_BASE_URL}/measurements`, {
+      timeout: API_TIMEOUT_MS,
       params: {
         device_id: options.deviceId,
       },
@@ -61,6 +71,9 @@ class NetatmoClient {
     console.timeEnd(fetchLabel);
 
     let { data } = response;
+    if (data && data.error) {
+      throw new Error(data.error);
+    }
 
     console.time(processingLabel);
     const processedData = convertUnixTimesToDates(data);
@@ -93,7 +106,7 @@ class NetatmoClient {
       return "blue";
     } else if (celsius >= 26 && celsius < 27) {
       return "yellow";
-    } else if (celsius >= 27 && celsius < 20) {
+    } else if (celsius >= 27 && celsius < 29) {
       return "orange";
     } else {
       return "red";
@@ -108,7 +121,7 @@ class NetatmoClient {
   noiseToColor(dba) {
     if (dba < 50) {
       return "green";
-    } else if (dba >= 15 && dba < 65) {
+    } else if (dba >= 50 && dba < 65) {
       return "blue";
     } else if (dba >= 65 && dba < 70) {
       return "yellow";
